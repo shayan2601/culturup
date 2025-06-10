@@ -22,12 +22,12 @@ const FeaturedArtists = () => {
             {artists.map((artist, index) => (
               <div key={index} className="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300">
                 <div className="relative">
-                  <img src={artist.image} alt={artist.name} className="w-full h-48 object-cover rounded-t-lg" />
+                  <img src="https://plus.unsplash.com/premium_photo-1678197937465-bdbc4ed95815?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8fDB8fHww" alt={artist.name} className="w-full h-48 object-cover rounded-t-lg" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-t-lg"></div>
                 </div>
                 <div className="p-5">
                   <div className="flex items-center">
-                    <img src={artist.image} alt={artist.name} className="w-12 h-12 rounded-full border-2 border-white -mt-10 shadow-md" />
+                    <img src="https://plus.unsplash.com/premium_photo-1678197937465-bdbc4ed95815?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8fDB8fHww" alt={artist.name} className="w-12 h-12 rounded-full border-2 border-white -mt-10 shadow-md" />
                     <div className="ml-4">
                       <h3 className="text-lg font-bold text-gray-900">{artist.name}</h3>
                       <p className="text-sm text-gray-500">{artist.genre}</p>

@@ -29,7 +29,7 @@ const Testimonials = () => {
             {testimonials.map((testimonial, index) => (
               <div key={index} className="bg-gray-50 rounded-lg shadow-sm p-6 relative">
                 <div className="absolute -top-6 left-1/2 transform -translate-x-1/2">
-                  <img src={testimonial.avatar} alt={testimonial.name} className="w-12 h-12 rounded-full border-4 border-white shadow" />
+                  <img src="https://plus.unsplash.com/premium_photo-1690407617686-d449aa2aad3c?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8YXZhdGFyJTIwcGljdHVyZXxlbnwwfHwwfHx8MA%3D%3D" alt={testimonial.name} className="w-12 h-12 rounded-full border-4 border-white shadow" />
                 </div>
                 <div className="pt-6 text-center">
                   <p className="text-gray-600 italic mb-4">"{testimonial.feedback}"</p>

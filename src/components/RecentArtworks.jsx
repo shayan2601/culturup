@@ -1,10 +1,21 @@
 import { Filter, Grid, List, Bookmark, Heart, Eye, Share2 } from 'lucide-react';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+// import { useRouter } from 'react-router-dom'; // Import the router for navigation
+import { useNavigate } from 'react-router-dom';
 const RecentArtworks = () => {
     const [viewMode, setViewMode] = useState('grid');
+    // const router = useRouter(); // Initialize the router
+    const navigate = useNavigate();
+    // Add navigation function
+    const navigateToArtworkDetail = (artworkId) => {
+        console.log("artwork::::", artworkId)
+        navigate(`/artwork/${artworkId}`);
+
+    };
   
     const artworks = [
       { 
+        id: 'art-12345', // Added artwork ID to match with detail page
         title: 'Sunset Bliss', 
         image: '/api/placeholder/400/300', 
         artist: 'Aisha Khan',
@@ -14,6 +25,7 @@ const RecentArtworks = () => {
         category: 'Painting'
       },
       { 
+        id: 'art-23456',
         title: 'Mountain Majesty', 
         image: '/api/placeholder/400/300', 
         artist: 'Rahim Ali',
@@ -23,6 +35,7 @@ const RecentArtworks = () => {
         category: 'Photography' 
       },
       { 
+        id: 'art-34567',
         title: 'Urban Dreams', 
         image: '/api/placeholder/400/300', 
         artist: 'Sophia Chen',
@@ -32,6 +45,7 @@ const RecentArtworks = () => {
         category: 'Digital Art'
       },
       { 
+        id: 'art-45678',
         title: 'Serene Waters', 
         image: '/api/placeholder/400/300', 
         artist: 'Michael Wong',
@@ -41,6 +55,7 @@ const RecentArtworks = () => {
         category: 'Watercolor'
       },
       { 
+        id: 'art-56789',
         title: 'Abstract Mind', 
         image: '/api/placeholder/400/300', 
         artist: 'Layla Diaz',
@@ -50,6 +65,7 @@ const RecentArtworks = () => {
         category: 'Abstract'
       },
       { 
+        id: 'art-67890',
         title: 'Golden Horizon', 
         image: '/api/placeholder/400/300', 
         artist: 'Jamal Hassan',
@@ -92,10 +108,21 @@ const RecentArtworks = () => {
         {viewMode === 'grid' ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {artworks.map((artwork, index) => (
-              <div key={index} className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-200">
+              <div 
+                key={index} 
+                className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-200 cursor-pointer"
+                onClick={() => navigateToArtworkDetail(artwork.id)} // Add click handler
+              >
                 <div className="relative">
-                  <img src={artwork.image} alt={artwork.title} className="w-full h-56 object-cover" />
-                  <div className="absolute top-3 right-3 bg-white rounded-full p-1.5 shadow-md">
+                  <img 
+                    src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8YXJ0fGVufDB8fDB8fHww" 
+                    alt={artwork.title} 
+                    className="w-full h-56 object-cover" 
+                  />
+                  <div 
+                    className="absolute top-3 right-3 bg-white rounded-full p-1.5 shadow-md"
+                    onClick={(e) => e.stopPropagation()} // Prevent navigation when clicking the bookmark
+                  >
                     <Bookmark className="h-4 w-4 text-gray-600" />
                   </div>
                 </div>
@@ -121,7 +148,10 @@ const RecentArtworks = () => {
                         <span>{artwork.views}</span>
                       </div>
                     </div>
-                    <button className="text-cyan-600 hover:text-cyan-500">
+                    <button 
+                      className="text-cyan-600 hover:text-cyan-500"
+                      onClick={(e) => e.stopPropagation()} // Prevent navigation when clicking share
+                    >
                       <Share2 className="h-4 w-4" />
                     </button>
                   </div>
@@ -132,8 +162,16 @@ const RecentArtworks = () => {
         ) : (
           <div className="space-y-4">
             {artworks.map((artwork, index) => (
-              <div key={index} className="flex flex-col sm:flex-row bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-200">
-                <img src={artwork.image} alt={artwork.title} className="w-full sm:w-48 h-48 object-cover" />
+              <div 
+                key={index} 
+                className="flex flex-col sm:flex-row bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-200 cursor-pointer"
+                onClick={() => navigateToArtworkDetail(artwork.id)} // Add click handler
+              >
+                <img 
+                  src="/api/placeholder/400/300" 
+                  alt={artwork.title} 
+                  className="w-full sm:w-48 h-48 object-cover" 
+                />
                 <div className="p-4 flex-1 flex flex-col justify-between">
                   <div>
                     <div className="flex justify-between items-start">
@@ -159,10 +197,16 @@ const RecentArtworks = () => {
                       </div>
                     </div>
                     <div className="flex space-x-2">
-                      <button className="bg-white border border-gray-300 rounded-full p-1.5 hover:bg-gray-50">
+                      <button 
+                        className="bg-white border border-gray-300 rounded-full p-1.5 hover:bg-gray-50"
+                        onClick={(e) => e.stopPropagation()} // Prevent navigation when clicking bookmark
+                      >
                         <Bookmark className="h-4 w-4 text-gray-600" />
                       </button>
-                      <button className="bg-white border border-gray-300 rounded-full p-1.5 hover:bg-gray-50">
+                      <button 
+                        className="bg-white border border-gray-300 rounded-full p-1.5 hover:bg-gray-50"
+                        onClick={(e) => e.stopPropagation()} // Prevent navigation when clicking share
+                      >
                         <Share2 className="h-4 w-4 text-gray-600" />
                       </button>
                     </div>
@@ -175,4 +219,5 @@ const RecentArtworks = () => {
       </div>
     );
   };
-export default RecentArtworks
+  
+export default RecentArtworks;

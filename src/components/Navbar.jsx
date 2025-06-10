@@ -13,7 +13,7 @@ const Navbar = () => {
                 <span className="text-2xl font-bold bg-gradient-to-r from-cyan-600 to-blue-700 bg-clip-text text-transparent">Culturup</span>
             </div>
             <div className="hidden md:ml-6 md:flex md:space-x-8">
-                <a href="#" className="border-b-2 border-cyan-500 text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">
+                <a href="/" className="border-b-2 border-cyan-500 text-gray-900 inline-flex items-center px-1 pt-1 text-sm font-medium">
                 Home
                 </a>
                 <a href="#" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
@@ -22,8 +22,14 @@ const Navbar = () => {
                 <a href="#" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                 Gallery
                 </a>
-                <a href="#" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                Events
+                <a href="/ArtEquipment" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                Equipments
+                </a>
+                <a href="/login" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                Login
+                </a>
+                <a href="/signup" className="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                Signup
                 </a>
             </div>
             </div>
