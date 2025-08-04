@@ -14,7 +14,6 @@ const artworks = [
     price: '$350',
     image: 'https://source.unsplash.com/random/300x200?art,abstract',
   },
-  // Add more artwork objects as needed
 ];
 
 const Explore = () => (

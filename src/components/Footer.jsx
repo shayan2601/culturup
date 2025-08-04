@@ -5,11 +5,9 @@ export default function Footer() {
   
   return (
     <footer className="bg-gray-900 text-gray-300">
-      {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           
-          {/* Company Info */}
           <div>
             <h3 className="text-xl font-semibold text-white mb-4">ArtistMarket</h3>
             <p className="mb-4 text-sm">Connecting artists with art lovers since 2020. Our marketplace empowers creators and celebrates artistic expression.</p>
@@ -26,7 +24,6 @@ export default function Footer() {
             </div>
           </div>
           
-          {/* Quick Links */}
           <div>
             <h3 className="text-lg font-semibold text-white mb-4">Explore</h3>
             <ul className="space-y-2">
@@ -38,7 +35,6 @@ export default function Footer() {
             </ul>
           </div>
           
-          {/* Support */}
           <div>
             <h3 className="text-lg font-semibold text-white mb-4">Support</h3>
             <ul className="space-y-2">
@@ -50,7 +46,6 @@ export default function Footer() {
             </ul>
           </div>
           
-          {/* Contact */}
           <div>
             <h3 className="text-lg font-semibold text-white mb-4">Contact Us</h3>
             <ul className="space-y-3">
@@ -71,7 +66,6 @@ export default function Footer() {
         </div>
       </div>
       
-      {/* Bottom Bar */}
       <div className="bg-gray-950 py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm">&copy; {currentYear} ArtistMarket. All rights reserved.</p>

@@ -1,21 +1,91 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Navbar from '../components/Navbar';
 
-const Login = () => (
-  <>
-    <Navbar />
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md bg-white p-8 shadow-lg rounded">
-        <h2 className="text-2xl font-semibold text-center text-cyan-600 mb-6">Login</h2>
-        <form className="space-y-4">
-          <input type="email" placeholder="Email" className="w-full p-3 border rounded" />
-          <input type="password" placeholder="Password" className="w-full p-3 border rounded" />
-          <button className="w-full bg-cyan-600 text-white py-2 rounded hover:bg-cyan-700">
-            Login
-          </button>
-        </form>
+const Login = () => {
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(null);
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage(null);
+
+    try {
+      const response = await axios.post('https://shoaibahmad.pythonanywhere.com/api/signin/', formData);
+      
+      const { token, email, username, user_id } = response.data;
+
+      localStorage.setItem('authToken', token);
+      localStorage.setItem('userData', JSON.stringify({ email, username, user_id }));
+
+      setMessage({ type: 'success', text: 'Login successful!' });
+
+      setFormData({ email: '', password: '' });
+
+      navigate('/');
+    } catch (error) {
+      const errMsg = error.response?.data?.error || 'Login failed';
+      setMessage({ type: 'error', text: errMsg });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <>
+      <Navbar />
+      <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
+        <div className="w-full max-w-md bg-white p-8 shadow-lg rounded">
+          <h2 className="text-3xl font-bold text-center text-cyan-600 mb-6">Login</h2>
+          <form className="space-y-4" onSubmit={handleSubmit}>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-cyan-600 text-white py-2 rounded hover:bg-cyan-700 transition disabled:opacity-50"
+            >
+              {loading ? 'Logging in...' : 'Login'}
+            </button>
+
+            {message && (
+              <p className={`text-sm mt-2 text-center ${message.type === 'success' ? 'text-green-600' : 'text-red-500'}`}>
+                {message.text}
+              </p>
+            )}
+          </form>
+        </div>
       </div>
-    </div>
-  </>
-);
+    </>
+  );
+};
 
 export default Login;

@@ -4,9 +4,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 const RecentArtworks = () => {
     const [viewMode, setViewMode] = useState('grid');
-    // const router = useRouter(); // Initialize the router
+    // const router = useRouter();
     const navigate = useNavigate();
-    // Add navigation function
     const navigateToArtworkDetail = (artworkId) => {
         console.log("artwork::::", artworkId)
         navigate(`/artwork/${artworkId}`);
@@ -15,7 +14,7 @@ const RecentArtworks = () => {
   
     const artworks = [
       { 
-        id: 'art-12345', // Added artwork ID to match with detail page
+        id: 'art-12345', 
         title: 'Sunset Bliss', 
         image: '/api/placeholder/400/300', 
         artist: 'Aisha Khan',
@@ -111,7 +110,7 @@ const RecentArtworks = () => {
               <div 
                 key={index} 
                 className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-200 cursor-pointer"
-                onClick={() => navigateToArtworkDetail(artwork.id)} // Add click handler
+                onClick={() => navigateToArtworkDetail(artwork.id)}
               >
                 <div className="relative">
                   <img 
@@ -121,7 +120,7 @@ const RecentArtworks = () => {
                   />
                   <div 
                     className="absolute top-3 right-3 bg-white rounded-full p-1.5 shadow-md"
-                    onClick={(e) => e.stopPropagation()} // Prevent navigation when clicking the bookmark
+                    onClick={(e) => e.stopPropagation()}
                   >
                     <Bookmark className="h-4 w-4 text-gray-600" />
                   </div>
@@ -150,7 +149,7 @@ const RecentArtworks = () => {
                     </div>
                     <button 
                       className="text-cyan-600 hover:text-cyan-500"
-                      onClick={(e) => e.stopPropagation()} // Prevent navigation when clicking share
+                      onClick={(e) => e.stopPropagation()}
                     >
                       <Share2 className="h-4 w-4" />
                     </button>
@@ -165,7 +164,7 @@ const RecentArtworks = () => {
               <div 
                 key={index} 
                 className="flex flex-col sm:flex-row bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-200 cursor-pointer"
-                onClick={() => navigateToArtworkDetail(artwork.id)} // Add click handler
+                onClick={() => navigateToArtworkDetail(artwork.id)}
               >
                 <img 
                   src="/api/placeholder/400/300" 
@@ -199,13 +198,13 @@ const RecentArtworks = () => {
                     <div className="flex space-x-2">
                       <button 
                         className="bg-white border border-gray-300 rounded-full p-1.5 hover:bg-gray-50"
-                        onClick={(e) => e.stopPropagation()} // Prevent navigation when clicking bookmark
+                        onClick={(e) => e.stopPropagation()} 
                       >
                         <Bookmark className="h-4 w-4 text-gray-600" />
                       </button>
                       <button 
                         className="bg-white border border-gray-300 rounded-full p-1.5 hover:bg-gray-50"
-                        onClick={(e) => e.stopPropagation()} // Prevent navigation when clicking share
+                        onClick={(e) => e.stopPropagation()}
                       >
                         <Share2 className="h-4 w-4 text-gray-600" />
                       </button>
