@@ -8,6 +8,7 @@ const Signup = () => {
     username: '',
     email: '',
     password: '',
+    password_confirm: '',
     phone_number: '',
     user_type: 'buyer',
   });
@@ -33,47 +34,63 @@ const Signup = () => {
     setLoading(true);
     setMessage(null);
 
-    if(formData?.password.length < 6){
-      setMessage({ type: 'error', text: "password must contain atleast 6 characters" });
+    // --- 🔒 FRONTEND VALIDATIONS ---
+    if (!formData.password) {
+      setMessage({ type: 'error', text: "Password field is required." });
       setLoading(false);
       return;
     }
 
-    if(!/A-Z/.test(formData.password)){
-      setMessage({ type: 'error', text: "password must contain capital letters" });
+    if (formData.password.length < 6) {
+      setMessage({ type: 'error', text: "Password must contain at least 6 characters." });
       setLoading(false);
       return;
     }
 
-    if(!/a-z/.test(formData.password)){
-      setMessage({ type: 'error', text: "password must contain small letters" });
+    if (!formData.password_confirm) {
+      setMessage({ type: 'error', text: "Password confirmation is required." });
       setLoading(false);
       return;
     }
-  
+
+    if (formData.password !== formData.password_confirm) {
+      setMessage({ type: 'error', text: "Passwords do not match." });
+      setLoading(false);
+      return;
+    }
+
+    if (formData.phone_number && formData.phone_number.length > 15) {
+      setMessage({ type: 'error', text: "Phone number must not exceed 15 characters." });
+      setLoading(false);
+      return;
+    }
+
     try {
-      const response = await axios.post('https://shoaibahmad.pythonanywhere.com/api/signup/', formData);
-      
+      const response = await axios.post(
+        'https://shoaibahmad.pythonanywhere.com/api/auth/register/',
+        formData
+      );
+
       localStorage.setItem('signupUser', JSON.stringify(response.data));
-      
       setMessage({ type: 'success', text: 'Signup successful! Redirecting to login...' });
 
-      
-  
       setFormData({
         username: '',
         email: '',
         password: '',
+        password_confirm: '',
         phone_number: '',
         user_type: 'buyer',
       });
-  
+
       setTimeout(() => {
         navigate('/login');
       }, 1500);
-  
     } catch (error) {
-      const errMsg = error.response?.data?.error || 'Signup failed';
+      const errMsg =
+        error.response?.data?.error ||
+        error.response?.data?.detail ||
+        'Signup failed. Please check your input.';
       setMessage({ type: 'error', text: errMsg });
     } finally {
       setLoading(false);
@@ -112,8 +129,15 @@ const Signup = () => {
               value={formData.password}
               onChange={handleChange}
               required
-              // minLength={6}
-              // pattern="(?=.*[a-z])(?=.*[A-Z]).{6,}"
+              className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+            <input
+              type="password"
+              name="password_confirm"
+              placeholder="Confirm Password"
+              value={formData.password_confirm}
+              onChange={handleChange}
+              required
               className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-cyan-500"
             />
             <input
@@ -122,13 +146,18 @@ const Signup = () => {
               placeholder="Phone Number"
               value={formData.phone_number}
               onChange={handleChange}
+              maxLength={15}
               className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-cyan-500"
             />
 
             <div className="flex items-center justify-between">
               <span className="text-gray-600 font-medium">Account Type:</span>
               <div className="flex items-center space-x-2">
-                <span className={`${formData.user_type === 'buyer' ? 'text-cyan-600 font-semibold' : 'text-gray-400'}`}>
+                <span
+                  className={`${
+                    formData.user_type === 'buyer' ? 'text-cyan-600 font-semibold' : 'text-gray-400'
+                  }`}
+                >
                   Buyer
                 </span>
                 <label className="relative inline-flex items-center cursor-pointer">
@@ -140,7 +169,11 @@ const Signup = () => {
                   />
                   <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-cyan-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cyan-600"></div>
                 </label>
-                <span className={`${formData.user_type === 'artist' ? 'text-cyan-600 font-semibold' : 'text-gray-400'}`}>
+                <span
+                  className={`${
+                    formData.user_type === 'artist' ? 'text-cyan-600 font-semibold' : 'text-gray-400'
+                  }`}
+                >
                   Artist
                 </span>
               </div>
@@ -155,7 +188,11 @@ const Signup = () => {
             </button>
 
             {message && (
-              <p className={`text-sm mt-2 text-center ${message.type === 'success' ? 'text-green-600' : 'text-red-500'}`}>
+              <p
+                className={`text-sm mt-2 text-center ${
+                  message.type === 'success' ? 'text-green-600' : 'text-red-500'
+                }`}
+              >
                 {message.text}
               </p>
             )}

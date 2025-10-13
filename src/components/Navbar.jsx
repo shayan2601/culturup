@@ -36,9 +36,9 @@ const Navbar = ({ onProfileClick }) => {
             <div className="hidden md:ml-8 md:flex md:space-x-1">
                 {[
                     { name: 'Home', href: '/' },
-                    { name: 'Explore Artists', href: '#' },
-                    { name: 'Gallery', href: '#' },
-                    { name: 'Equipments', href: '/ArtEquipment' },
+                    { name: 'Explore Artists', href: '/explore-artists' },
+                    { name: 'Gallery', href: '/gallery' },
+                    { name: 'Equipments', href: '/equipments' },
                     ...(isLoggedIn ? [] : [
                     { name: 'Login', href: '/login' },
                     { name: 'Signup', href: '/signup' }

@@ -5,7 +5,7 @@ import Navbar from '../components/Navbar';
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    email: '',
+    username: '',
     password: '',
   });
   const [loading, setLoading] = useState(false);
@@ -23,7 +23,7 @@ const Login = () => {
     setMessage(null);
 
     try {
-      const response = await axios.post('https://shoaibahmad.pythonanywhere.com/api/signin/', formData);
+      const response = await axios.post('https://shoaibahmad.pythonanywhere.com//api/auth/login/', formData);
       
       const { token, email, username, user_id } = response.data;
 
@@ -32,7 +32,7 @@ const Login = () => {
 
       setMessage({ type: 'success', text: 'Login successful!' });
 
-      setFormData({ email: '', password: '' });
+      setFormData({ username: '', password: '' });
 
       navigate('/');
     } catch (error) {
@@ -51,10 +51,10 @@ const Login = () => {
           <h2 className="text-3xl font-bold text-center text-cyan-600 mb-6">Login</h2>
           <form className="space-y-4" onSubmit={handleSubmit}>
             <input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={formData.email}
+              type="text"
+              name="username"
+              placeholder="username"
+              value={formData.username}
               onChange={handleChange}
               required
               className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-cyan-500"
