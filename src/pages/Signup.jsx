@@ -71,7 +71,7 @@ const Signup = () => {
         formData
       );
 
-      localStorage.setItem('signupUser', JSON.stringify(response.data));
+      localStorage.setItem('userData', JSON.stringify(response.data));
       setMessage({ type: 'success', text: 'Signup successful! Redirecting to login...' });
 
       setFormData({

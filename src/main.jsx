@@ -15,6 +15,17 @@ import ArtworkDetailPage from '@components/ArtworkDetailPage';
 import AdminProtectedRoute from './components/AdminProtectedRoute';
 import ExploreArtists from './pages/ExploreArtists';
 import Gallery from './pages/Gallery';
+import CreateEquipment from './pages/CreateEquipment';
+import AllEquipments from './pages/AllEquipments';
+import UpdateEquipment from './pages/UpdateEquipment';
+import AllArtists from './pages/AllArtists';
+import UpdateArtist from './pages/UpdateArtist';
+import ArtistDetails from './pages/ArtistDetails';
+import UpdateArtwork from './pages/UpdateArtwork';
+import ChatList from './pages/ChatList';
+import ChatWindow from './pages/ChatWindow';
+import ChatScreen from './pages/ChatScreen';
+import ConversationsScreen from './pages/ConversationsScreen';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -29,7 +40,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/artwork/:artworkId" element={<ArtworkDetailPage />} />
         <Route path="/explore-artists" element={<ExploreArtists />} />
         <Route path="/gallery" element={<Gallery />} />
-
+        {/* <Route path="/chat" element={<ChatList />} /> */}
+        <Route path="/chat" element={<ChatScreen />} />
+        <Route path="/chat/:conversationId" element={<ChatWindow />} />
+        <Route path="/conversations" element={<ConversationsScreen />} />
         {/* Admin routes */}
         <Route path="/admin" element={<AdminLogin />} />
         <Route
@@ -39,6 +53,46 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               <AdminDashboard />
             </AdminProtectedRoute>
           }
+        />
+        <Route path="/admin/create-equipment" element={<AdminProtectedRoute><CreateEquipment /></AdminProtectedRoute>} />
+        <Route path="/admin/equipments" element={<AdminProtectedRoute><AllEquipments /></AdminProtectedRoute>} />
+        <Route
+          path="/admin/update-equipment/:id"
+          element={
+            <AdminProtectedRoute>
+              <UpdateEquipment />
+            </AdminProtectedRoute>
+          }
+        />  
+        <Route
+          path="/admin/artists"
+          element={
+            <AdminProtectedRoute>
+              <AllArtists />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/update-artist/:id"
+          element={
+            <AdminProtectedRoute>
+              <UpdateArtist />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/artist/:id"
+          element={
+            <AdminProtectedRoute>
+              <ArtistDetails />
+            </AdminProtectedRoute>
+          }
+        />
+        <Route
+          path="/update-artwork/:id"
+          element={
+              <UpdateArtwork />
+          } 
         />
       </Routes>
     </BrowserRouter>

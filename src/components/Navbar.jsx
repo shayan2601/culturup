@@ -1,12 +1,13 @@
 import { Bell, MessageCircle, Search, User, Settings, LogOut, Upload, Edit3, Heart, ShoppingBag, Eye, Plus, Camera, Save, X } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = ({ onProfileClick }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
-
+  const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     const user = JSON.parse(localStorage.getItem('userData'));
@@ -110,7 +111,7 @@ const Navbar = ({ onProfileClick }) => {
               )}
             </div>
             
-            <button className="p-2 bg-white/50 backdrop-blur-sm rounded-xl text-gray-500 hover:text-cyan-600 hover:bg-white transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 group">
+            <button onClick={() => navigate("/conversations")} className="p-2 bg-white/50 backdrop-blur-sm rounded-xl text-gray-500 hover:text-cyan-600 hover:bg-white transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 group">
               <MessageCircle className="h-5 w-5 group-hover:animate-pulse" />
             </button>
             

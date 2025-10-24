@@ -23,12 +23,13 @@ const Login = () => {
     setMessage(null);
 
     try {
-      const response = await axios.post('https://shoaibahmad.pythonanywhere.com//api/auth/login/', formData);
-      
-      const { token, email, username, user_id } = response.data;
+      const response = await axios.post('https://shoaibahmad.pythonanywhere.com/api/auth/login/', formData);
 
+      const { token, user } = response.data;
+    
+      // Store token and full user object
       localStorage.setItem('authToken', token);
-      localStorage.setItem('userData', JSON.stringify({ email, username, user_id }));
+      localStorage.setItem('userData', JSON.stringify(user));
 
       setMessage({ type: 'success', text: 'Login successful!' });
 
