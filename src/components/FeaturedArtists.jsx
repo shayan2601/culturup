@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
 const FeaturedArtists = () => {
   const [artists, setArtists] = useState([]);
@@ -11,46 +11,38 @@ const FeaturedArtists = () => {
 
   const fetchArtists = async () => {
     try {
-      const res = await axios.get(
-        "https://shoaibahmad.pythonanywhere.com/api/artist-profiles/"
-      );
+      const res = await axios.get('https://shoaibahmad.pythonanywhere.com/api/artist-profiles/');
       // Show maximum 6 artists only
       setArtists(res.data.results.slice(0, 6));
     } catch (err) {
-      console.error("Error fetching artists:", err);
+      console.error('Error fetching artists:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading)
-    return (
-      <div className="py-12 text-center text-gray-500">Loading artists...</div>
-    );
+  if (loading) return <div className='py-12 text-center text-gray-500'>Loading artists...</div>;
 
   return (
-    <div className="py-12 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl font-bold text-gray-900">Featured Artists</h2>
-          <a
-            href="/artists"
-            className="text-cyan-600 hover:text-cyan-500 text-sm font-medium"
-          >
+    <div className='bg-white py-12'>
+      <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
+        <div className='mb-8 flex items-center justify-between'>
+          <h2 className='text-2xl font-bold text-gray-900'>Featured Artists</h2>
+          <a href='/artists' className='text-sm font-medium text-cyan-600 hover:text-cyan-500'>
             View All Artists
           </a>
         </div>
 
         {artists.length === 0 ? (
-          <p className="text-center text-gray-500">No artists found.</p>
+          <p className='text-center text-gray-500'>No artists found.</p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'>
             {artists.map((artist, index) => (
               <div
                 key={index}
-                className="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300"
+                className='rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-md'
               >
-                <div className="relative">
+                <div className='relative'>
                   <img
                     src={
                       artist.user?.profile_image ||
@@ -59,13 +51,13 @@ const FeaturedArtists = () => {
                       )}&background=ddd&color=555&size=400`
                     }
                     alt={artist.user?.username || 'Artist'}
-                    className="w-full h-48 object-cover rounded-t-lg"
+                    className='h-48 w-full rounded-t-lg object-cover'
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent rounded-t-lg"></div>
+                  <div className='absolute inset-0 rounded-t-lg bg-gradient-to-t from-black/50 to-transparent'></div>
                 </div>
 
-                <div className="p-5">
-                  <div className="flex items-center">
+                <div className='p-5'>
+                  <div className='flex items-center'>
                     <img
                       src={
                         artist.user?.profile_image ||
@@ -74,30 +66,26 @@ const FeaturedArtists = () => {
                         )}&background=ccc&color=555&size=128`
                       }
                       alt={artist.user?.username || 'Artist'}
-                      className="w-12 h-12 rounded-full border-2 border-white -mt-10 shadow-md object-cover bg-gray-100"
+                      className='-mt-10 h-12 w-12 rounded-full border-2 border-white bg-gray-100 object-cover shadow-md'
                     />
-                    <div className="ml-4">
-                      <h3 className="text-lg font-bold text-gray-900">
+                    <div className='ml-4'>
+                      <h3 className='text-lg font-bold text-gray-900'>
                         {artist.user?.first_name} {artist.user?.last_name}
                       </h3>
-                      <p className="text-sm text-gray-500">
-                        {artist.skills || "No skills listed"}
-                      </p>
+                      <p className='text-sm text-gray-500'>{artist.skills || 'No skills listed'}</p>
                     </div>
                   </div>
 
-                  <div className="mt-4 flex justify-between items-center">
+                  <div className='mt-4 flex items-center justify-between'>
                     <div>
-                      <p className="text-xs text-gray-500">Experience</p>
-                      <p className="font-semibold">
-                        {artist.experience_level || "N/A"}
-                      </p>
+                      <p className='text-xs text-gray-500'>Experience</p>
+                      <p className='font-semibold'>{artist.experience_level || 'N/A'}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500">Hourly Rate</p>
-                      <p className="font-semibold">${artist.hourly_rate}</p>
+                      <p className='text-xs text-gray-500'>Hourly Rate</p>
+                      <p className='font-semibold'>${artist.hourly_rate}</p>
                     </div>
-                    <button className="bg-cyan-600 hover:bg-cyan-700 text-white text-sm font-medium py-1 px-4 rounded-full transition-colors duration-300">
+                    <button className='rounded-full bg-cyan-600 px-4 py-1 text-sm font-medium text-white transition-colors duration-300 hover:bg-cyan-700'>
                       Follow
                     </button>
                   </div>

@@ -1,7 +1,8 @@
-import { useState } from 'react';
 import axios from 'axios';
-import Navbar from '../components/Navbar';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import Navbar from '../components/Navbar';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -36,31 +37,31 @@ const Signup = () => {
 
     // --- 🔒 FRONTEND VALIDATIONS ---
     if (!formData.password) {
-      setMessage({ type: 'error', text: "Password field is required." });
+      setMessage({ type: 'error', text: 'Password field is required.' });
       setLoading(false);
       return;
     }
 
     if (formData.password.length < 6) {
-      setMessage({ type: 'error', text: "Password must contain at least 6 characters." });
+      setMessage({ type: 'error', text: 'Password must contain at least 6 characters.' });
       setLoading(false);
       return;
     }
 
     if (!formData.password_confirm) {
-      setMessage({ type: 'error', text: "Password confirmation is required." });
+      setMessage({ type: 'error', text: 'Password confirmation is required.' });
       setLoading(false);
       return;
     }
 
     if (formData.password !== formData.password_confirm) {
-      setMessage({ type: 'error', text: "Passwords do not match." });
+      setMessage({ type: 'error', text: 'Passwords do not match.' });
       setLoading(false);
       return;
     }
 
     if (formData.phone_number && formData.phone_number.length > 15) {
-      setMessage({ type: 'error', text: "Phone number must not exceed 15 characters." });
+      setMessage({ type: 'error', text: 'Phone number must not exceed 15 characters.' });
       setLoading(false);
       return;
     }
@@ -100,78 +101,80 @@ const Signup = () => {
   return (
     <>
       <Navbar />
-      <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
-        <div className="w-full max-w-md bg-white p-8 shadow-lg rounded">
-          <h2 className="text-3xl font-bold text-center text-cyan-600 mb-6">Create Your Account</h2>
-          <form className="space-y-4" onSubmit={handleSubmit}>
+      <div className='flex min-h-screen items-center justify-center bg-gray-100 px-4'>
+        <div className='w-full max-w-md rounded bg-white p-8 shadow-lg'>
+          <h2 className='mb-6 text-center text-3xl font-bold text-cyan-600'>Create Your Account</h2>
+          <form className='space-y-4' onSubmit={handleSubmit}>
             <input
-              type="text"
-              name="username"
-              placeholder="Full Name"
+              type='text'
+              name='username'
+              placeholder='Full Name'
               value={formData.username}
               onChange={handleChange}
               required
-              className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className='w-full rounded border p-3 focus:ring-2 focus:ring-cyan-500 focus:outline-none'
             />
             <input
-              type="email"
-              name="email"
-              placeholder="Email"
+              type='email'
+              name='email'
+              placeholder='Email'
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className='w-full rounded border p-3 focus:ring-2 focus:ring-cyan-500 focus:outline-none'
             />
             <input
-              type="password"
-              name="password"
-              placeholder="Password"
+              type='password'
+              name='password'
+              placeholder='Password'
               value={formData.password}
               onChange={handleChange}
               required
-              className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className='w-full rounded border p-3 focus:ring-2 focus:ring-cyan-500 focus:outline-none'
             />
             <input
-              type="password"
-              name="password_confirm"
-              placeholder="Confirm Password"
+              type='password'
+              name='password_confirm'
+              placeholder='Confirm Password'
               value={formData.password_confirm}
               onChange={handleChange}
               required
-              className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className='w-full rounded border p-3 focus:ring-2 focus:ring-cyan-500 focus:outline-none'
             />
             <input
-              type="text"
-              name="phone_number"
-              placeholder="Phone Number"
+              type='text'
+              name='phone_number'
+              placeholder='Phone Number'
               value={formData.phone_number}
               onChange={handleChange}
               maxLength={15}
-              className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className='w-full rounded border p-3 focus:ring-2 focus:ring-cyan-500 focus:outline-none'
             />
 
-            <div className="flex items-center justify-between">
-              <span className="text-gray-600 font-medium">Account Type:</span>
-              <div className="flex items-center space-x-2">
+            <div className='flex items-center justify-between'>
+              <span className='font-medium text-gray-600'>Account Type:</span>
+              <div className='flex items-center space-x-2'>
                 <span
                   className={`${
-                    formData.user_type === 'buyer' ? 'text-cyan-600 font-semibold' : 'text-gray-400'
+                    formData.user_type === 'buyer' ? 'font-semibold text-cyan-600' : 'text-gray-400'
                   }`}
                 >
                   Buyer
                 </span>
-                <label className="relative inline-flex items-center cursor-pointer">
+                <label className='relative inline-flex cursor-pointer items-center'>
                   <input
-                    type="checkbox"
-                    className="sr-only peer"
+                    type='checkbox'
+                    className='peer sr-only'
                     checked={formData.user_type === 'artist'}
                     onChange={toggleUserType}
                   />
-                  <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-cyan-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cyan-600"></div>
+                  <div className="peer h-6 w-11 rounded-full bg-gray-300 peer-checked:bg-cyan-600 peer-focus:ring-2 peer-focus:ring-cyan-500 peer-focus:outline-none after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:border after:bg-white after:transition-all after:content-[''] peer-checked:after:translate-x-full peer-checked:after:border-white"></div>
                 </label>
                 <span
                   className={`${
-                    formData.user_type === 'artist' ? 'text-cyan-600 font-semibold' : 'text-gray-400'
+                    formData.user_type === 'artist'
+                      ? 'font-semibold text-cyan-600'
+                      : 'text-gray-400'
                   }`}
                 >
                   Artist
@@ -180,16 +183,16 @@ const Signup = () => {
             </div>
 
             <button
-              type="submit"
+              type='submit'
               disabled={loading}
-              className="w-full bg-cyan-600 text-white py-2 rounded hover:bg-cyan-700 transition disabled:opacity-50"
+              className='w-full rounded bg-cyan-600 py-2 text-white transition hover:bg-cyan-700 disabled:opacity-50'
             >
               {loading ? 'Signing up...' : 'Signup'}
             </button>
 
             {message && (
               <p
-                className={`text-sm mt-2 text-center ${
+                className={`mt-2 text-center text-sm ${
                   message.type === 'success' ? 'text-green-600' : 'text-red-500'
                 }`}
               >

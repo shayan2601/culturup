@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import axios from 'axios';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const AdminLogin = () => {
@@ -43,37 +43,35 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md bg-white p-8 shadow-lg rounded">
-        <h2 className="text-2xl font-semibold text-center text-cyan-600 mb-6">
-          Admin Login
-        </h2>
+    <div className='flex min-h-screen items-center justify-center bg-gray-100'>
+      <div className='w-full max-w-md rounded bg-white p-8 shadow-lg'>
+        <h2 className='mb-6 text-center text-2xl font-semibold text-cyan-600'>Admin Login</h2>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className='space-y-4'>
           <input
-            type="text"
-            name="username"
-            placeholder="Username"
-            className="w-full p-3 border rounded"
+            type='text'
+            name='username'
+            placeholder='Username'
+            className='w-full rounded border p-3'
             value={formData.username}
             onChange={handleChange}
             required
           />
           <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            className="w-full p-3 border rounded"
+            type='password'
+            name='password'
+            placeholder='Password'
+            className='w-full rounded border p-3'
             value={formData.password}
             onChange={handleChange}
             required
           />
 
           <button
-            type="submit"
+            type='submit'
             disabled={loading}
-            className={`w-full bg-cyan-600 text-white py-2 rounded hover:bg-cyan-700 ${
-              loading ? 'opacity-70 cursor-not-allowed' : ''
+            className={`w-full rounded bg-cyan-600 py-2 text-white hover:bg-cyan-700 ${
+              loading ? 'cursor-not-allowed opacity-70' : ''
             }`}
           >
             {loading ? 'Logging in...' : 'Login'}
@@ -82,7 +80,7 @@ const AdminLogin = () => {
 
         {message && (
           <p
-            className={`text-center mt-4 ${
+            className={`mt-4 text-center ${
               message.type === 'success' ? 'text-green-600' : 'text-red-600'
             }`}
           >

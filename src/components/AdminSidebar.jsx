@@ -1,7 +1,7 @@
 // src/components/AdminSidebar.jsx
-import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { FaChartBar, FaBoxes, FaSignOutAlt, FaUserAlt } from "react-icons/fa";
+import React, { useState } from 'react';
+import { FaBoxes, FaChartBar, FaSignOutAlt, FaUserAlt } from 'react-icons/fa';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const AdminSidebar = ({ onLogout }) => {
   const navigate = useNavigate();
@@ -9,23 +9,19 @@ const AdminSidebar = ({ onLogout }) => {
   const [equipmentOpen, setEquipmentOpen] = useState(false);
   const [artistOpen, setArtistOpen] = useState(false);
 
-  const menuItems = [
-    { name: "Dashboard", icon: <FaChartBar />, path: "/admin/dashboard" },
-  ];
+  const menuItems = [{ name: 'Dashboard', icon: <FaChartBar />, path: '/admin/dashboard' }];
 
   return (
-    <div className="w-64 bg-cyan-700 text-white min-h-screen flex flex-col p-6 shadow-xl">
-      <h2 className="text-2xl font-bold mb-10 tracking-wide">Admin Panel</h2>
+    <div className='flex min-h-screen w-64 flex-col bg-cyan-700 p-6 text-white shadow-xl'>
+      <h2 className='mb-10 text-2xl font-bold tracking-wide'>Admin Panel</h2>
 
-      <nav className="flex-1 space-y-3">
+      <nav className='flex-1 space-y-3'>
         {menuItems.map((item) => (
           <button
             key={item.name}
             onClick={() => navigate(item.path)}
-            className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl transition-all ${
-              location.pathname === item.path
-                ? "bg-cyan-500 shadow-lg"
-                : "hover:bg-cyan-600"
+            className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 transition-all ${
+              location.pathname === item.path ? 'bg-cyan-500 shadow-lg' : 'hover:bg-cyan-600'
             }`}
           >
             {item.icon}
@@ -37,37 +33,35 @@ const AdminSidebar = ({ onLogout }) => {
         <div>
           <button
             onClick={() => setEquipmentOpen(!equipmentOpen)}
-            className={`flex items-center justify-between w-full px-4 py-3 rounded-xl transition-all ${
-              location.pathname.includes("/admin/equipment")
-                ? "bg-cyan-500 shadow-lg"
-                : "hover:bg-cyan-600"
+            className={`flex w-full items-center justify-between rounded-xl px-4 py-3 transition-all ${
+              location.pathname.includes('/admin/equipment')
+                ? 'bg-cyan-500 shadow-lg'
+                : 'hover:bg-cyan-600'
             }`}
           >
-            <div className="flex items-center gap-3">
+            <div className='flex items-center gap-3'>
               <FaBoxes />
               <span>Equipments</span>
             </div>
-            <span>{equipmentOpen ? "▲" : "▼"}</span>
+            <span>{equipmentOpen ? '▲' : '▼'}</span>
           </button>
 
           {equipmentOpen && (
-            <div className="ml-6 mt-2 space-y-2">
+            <div className='mt-2 ml-6 space-y-2'>
               <button
-                onClick={() => navigate("/admin/equipments")}
-                className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${
-                  location.pathname === "/admin/equipments"
-                    ? "bg-cyan-600"
-                    : "hover:bg-cyan-600"
+                onClick={() => navigate('/admin/equipments')}
+                className={`block w-full rounded-lg px-3 py-2 text-left text-sm ${
+                  location.pathname === '/admin/equipments' ? 'bg-cyan-600' : 'hover:bg-cyan-600'
                 }`}
               >
                 Get All Equipments
               </button>
               <button
-                onClick={() => navigate("/admin/create-equipment")}
-                className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${
-                  location.pathname === "/admin/create-equipment"
-                    ? "bg-cyan-600"
-                    : "hover:bg-cyan-600"
+                onClick={() => navigate('/admin/create-equipment')}
+                className={`block w-full rounded-lg px-3 py-2 text-left text-sm ${
+                  location.pathname === '/admin/create-equipment'
+                    ? 'bg-cyan-600'
+                    : 'hover:bg-cyan-600'
                 }`}
               >
                 Create Equipment
@@ -80,27 +74,25 @@ const AdminSidebar = ({ onLogout }) => {
         <div>
           <button
             onClick={() => setArtistOpen(!artistOpen)}
-            className={`flex items-center justify-between w-full px-4 py-3 rounded-xl transition-all ${
-              location.pathname.includes("/admin/artist")
-                ? "bg-cyan-500 shadow-lg"
-                : "hover:bg-cyan-600"
+            className={`flex w-full items-center justify-between rounded-xl px-4 py-3 transition-all ${
+              location.pathname.includes('/admin/artist')
+                ? 'bg-cyan-500 shadow-lg'
+                : 'hover:bg-cyan-600'
             }`}
           >
-            <div className="flex items-center gap-3">
+            <div className='flex items-center gap-3'>
               <FaUserAlt />
               <span>Artists</span>
             </div>
-            <span>{artistOpen ? "▲" : "▼"}</span>
+            <span>{artistOpen ? '▲' : '▼'}</span>
           </button>
 
           {artistOpen && (
-            <div className="ml-6 mt-2 space-y-2">
+            <div className='mt-2 ml-6 space-y-2'>
               <button
-                onClick={() => navigate("/admin/artists")}
-                className={`block w-full text-left px-3 py-2 rounded-lg text-sm ${
-                  location.pathname === "/admin/artists"
-                    ? "bg-cyan-600"
-                    : "hover:bg-cyan-600"
+                onClick={() => navigate('/admin/artists')}
+                className={`block w-full rounded-lg px-3 py-2 text-left text-sm ${
+                  location.pathname === '/admin/artists' ? 'bg-cyan-600' : 'hover:bg-cyan-600'
                 }`}
               >
                 Get All Artists
@@ -112,7 +104,7 @@ const AdminSidebar = ({ onLogout }) => {
 
       <button
         onClick={onLogout}
-        className="flex items-center gap-3 bg-red-600 hover:bg-red-700 px-4 py-3 rounded-xl mt-6 transition-all"
+        className='mt-6 flex items-center gap-3 rounded-xl bg-red-600 px-4 py-3 transition-all hover:bg-red-700'
       >
         <FaSignOutAlt /> Logout
       </button>

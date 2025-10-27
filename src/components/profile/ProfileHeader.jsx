@@ -1,5 +1,5 @@
-import { Camera, Edit3, Save } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion } from 'framer-motion';
+import { Camera, Edit3, Save } from 'lucide-react';
 
 export default function ProfileHeader({
   profileData,
@@ -12,20 +12,13 @@ export default function ProfileHeader({
   userType,
 }) {
   return (
-    <div className="relative bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600 pb-24">
-      <div className="absolute inset-0 bg-black/10" />
-      <div className="relative max-w-7xl mx-auto px-4 pt-10 flex flex-col md:flex-row items-center md:items-start gap-8">
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          className="relative group flex-shrink-0"
-        >
-          <div className="h-32 w-32 rounded-3xl bg-white/20 overflow-hidden shadow-lg flex items-center justify-center text-white text-4xl">
+    <div className='relative bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600 pb-24'>
+      <div className='absolute inset-0 bg-black/10' />
+      <div className='relative mx-auto flex max-w-7xl flex-col items-center gap-8 px-4 pt-10 md:flex-row md:items-start'>
+        <motion.div whileHover={{ scale: 1.05 }} className='group relative flex-shrink-0'>
+          <div className='flex h-32 w-32 items-center justify-center overflow-hidden rounded-3xl bg-white/20 text-4xl text-white shadow-lg'>
             {profileImage ? (
-              <img
-                src={profileImage}
-                alt="Profile"
-                className="w-full h-full object-cover"
-              />
+              <img src={profileImage} alt='Profile' className='h-full w-full object-cover' />
             ) : (
               profileData?.user?.username?.[0]?.toUpperCase()
             )}
@@ -33,41 +26,41 @@ export default function ProfileHeader({
 
           <button
             onClick={triggerFileInput}
-            className="absolute -bottom-2 -right-2 p-2 bg-white rounded-full text-gray-600 hover:bg-gray-100 shadow-md"
+            className='absolute -right-2 -bottom-2 rounded-full bg-white p-2 text-gray-600 shadow-md hover:bg-gray-100'
           >
-            <Camera className="h-5 w-5" />
+            <Camera className='h-5 w-5' />
           </button>
 
           <input
             ref={fileInputRef}
-            type="file"
-            accept="image/*"
+            type='file'
+            accept='image/*'
             onChange={onImageUpload}
-            className="hidden"
+            className='hidden'
           />
         </motion.div>
 
-        <div className="flex-1 text-center md:text-left">
-          <h1 className="text-4xl font-bold text-white">
+        <div className='flex-1 text-center md:text-left'>
+          <h1 className='text-4xl font-bold text-white'>
             {profileData?.user?.first_name || profileData?.user?.username}
           </h1>
           <motion.span
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-block mt-2 px-4 py-1 bg-white/20 rounded-full text-sm text-white"
+            className='mt-2 inline-block rounded-full bg-white/20 px-4 py-1 text-sm text-white'
           >
-            {userType === "artist" ? "🎨 Artist" : "💼 Buyer"}
+            {userType === 'artist' ? '🎨 Artist' : '💼 Buyer'}
           </motion.span>
-          <p className="text-white/90 mt-3">📧 {profileData?.user?.email}</p>
+          <p className='mt-3 text-white/90'>📧 {profileData?.user?.email}</p>
         </div>
 
         <motion.button
           whileTap={{ scale: 0.95 }}
           onClick={onEditToggle}
-          className="mt-4 md:mt-0 px-6 py-2 bg-white/20 hover:bg-white/30 rounded-xl flex items-center space-x-2 text-white backdrop-blur-md"
+          className='mt-4 flex items-center space-x-2 rounded-xl bg-white/20 px-6 py-2 text-white backdrop-blur-md hover:bg-white/30 md:mt-0'
         >
-          {isEditing ? <Save className="h-4 w-4" /> : <Edit3 className="h-4 w-4" />}
-          <span>{isEditing ? "Save Changes" : "Edit Profile"}</span>
+          {isEditing ? <Save className='h-4 w-4' /> : <Edit3 className='h-4 w-4' />}
+          <span>{isEditing ? 'Save Changes' : 'Edit Profile'}</span>
         </motion.button>
       </div>
     </div>

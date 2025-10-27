@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from 'framer-motion';
 
 export default function UploadArtworkModal({ isOpen, onClose, onUpload }) {
   if (!isOpen) return null;
@@ -6,7 +6,7 @@ export default function UploadArtworkModal({ isOpen, onClose, onUpload }) {
   return (
     <AnimatePresence>
       <motion.div
-        className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50"
+        className='fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm'
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -15,39 +15,31 @@ export default function UploadArtworkModal({ isOpen, onClose, onUpload }) {
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
-          className="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md"
+          className='w-full max-w-md rounded-2xl bg-white p-6 shadow-xl'
         >
-          <h3 className="text-xl font-bold mb-4">Upload Artwork</h3>
+          <h3 className='mb-4 text-xl font-bold'>Upload Artwork</h3>
 
           <form
             onSubmit={(e) => {
               e.preventDefault();
               onUpload();
             }}
-            className="space-y-4"
+            className='space-y-4'
           >
-            <input type="file" accept="image/*" required className="w-full" />
-            <input
-              type="text"
-              placeholder="Title"
-              className="w-full border p-2 rounded-md"
-            />
-            <input
-              type="number"
-              placeholder="Price"
-              className="w-full border p-2 rounded-md"
-            />
-            <div className="flex justify-end space-x-3">
+            <input type='file' accept='image/*' required className='w-full' />
+            <input type='text' placeholder='Title' className='w-full rounded-md border p-2' />
+            <input type='number' placeholder='Price' className='w-full rounded-md border p-2' />
+            <div className='flex justify-end space-x-3'>
               <button
-                type="button"
+                type='button'
                 onClick={onClose}
-                className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
+                className='rounded-md bg-gray-200 px-4 py-2 hover:bg-gray-300'
               >
                 Cancel
               </button>
               <button
-                type="submit"
-                className="px-4 py-2 bg-cyan-600 text-white rounded-md hover:bg-cyan-700"
+                type='submit'
+                className='rounded-md bg-cyan-600 px-4 py-2 text-white hover:bg-cyan-700'
               >
                 Upload
               </button>

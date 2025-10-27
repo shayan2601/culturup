@@ -1,4 +1,3 @@
-
 const artworks = [
   {
     id: 1,
@@ -18,16 +17,16 @@ const artworks = [
 
 const Explore = () => (
   <>
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold text-cyan-600 mb-6">Explore Artworks</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <div className='min-h-screen bg-gray-100 p-6'>
+      <h1 className='mb-6 text-3xl font-bold text-cyan-600'>Explore Artworks</h1>
+      <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3'>
         {artworks.map((art) => (
-          <div key={art.id} className="bg-white p-4 rounded shadow hover:shadow-lg transition">
-            <img src={art.image} alt={art.title} className="w-full h-40 object-cover rounded" />
-            <div className="mt-4">
-              <h2 className="text-xl font-semibold">{art.title}</h2>
-              <p className="text-gray-600">by {art.artist}</p>
-              <p className="text-cyan-600 font-bold">{art.price}</p>
+          <div key={art.id} className='rounded bg-white p-4 shadow transition hover:shadow-lg'>
+            <img src={art.image} alt={art.title} className='h-40 w-full rounded object-cover' />
+            <div className='mt-4'>
+              <h2 className='text-xl font-semibold'>{art.title}</h2>
+              <p className='text-gray-600'>by {art.artist}</p>
+              <p className='font-bold text-cyan-600'>{art.price}</p>
             </div>
           </div>
         ))}
