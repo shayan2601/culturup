@@ -1,19 +1,11 @@
 import {
   Bell,
-  Camera,
-  Edit3,
-  Eye,
-  Heart,
   LogOut,
   MessageCircle,
-  Plus,
-  Save,
   Search,
   Settings,
-  ShoppingBag,
-  Upload,
   User,
-  X,
+  X
 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -24,6 +16,7 @@ const Navbar = ({ onProfileClick }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const navigate = useNavigate();
+
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     const user = JSON.parse(localStorage.getItem('userData'));
@@ -40,10 +33,12 @@ const Navbar = ({ onProfileClick }) => {
     setIsLoggedIn(false);
     window.location.href = '/';
   };
+
   return (
     <nav className='sticky top-0 z-50 border-b border-gray-100 bg-white/90 shadow-lg backdrop-blur-md'>
       <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
         <div className='flex h-16 justify-between'>
+          {/* Left Menu */}
           <div className='flex items-center'>
             <div className='flex flex-shrink-0 items-center'>
               <span className='bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-700 bg-clip-text text-2xl font-bold text-transparent'>
@@ -56,27 +51,27 @@ const Navbar = ({ onProfileClick }) => {
                 { name: 'Explore Artists', href: '/explore-artists' },
                 { name: 'Gallery', href: '/gallery' },
                 { name: 'Equipments', href: '/equipments' },
-                ...(isLoggedIn
-                  ? []
-                  : [
+                ...(isLoggedIn ? [{ name: 'Jobs', href: '/jobs' }] : []),
+                ...(!isLoggedIn
+                  ? [
                       { name: 'Login', href: '/login' },
                       { name: 'Signup', href: '/signup' },
-                    ]),
+                    ]
+                  : []),
               ].map((item) => (
                 <a
                   key={item.name}
                   href={item.href}
-                  className={`group relative rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition-all duration-300 hover:text-cyan-600`}
+                  className='group relative rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition-all duration-300 hover:text-cyan-600'
                 >
                   {item.name}
-                  <span
-                    className={`absolute bottom-0 left-0 h-0.5 w-full scale-x-0 transform bg-gradient-to-r from-cyan-500 to-blue-500 transition-all duration-300 group-hover:scale-x-100`}
-                  ></span>
+                  <span className='absolute bottom-0 left-0 h-0.5 w-full scale-x-0 transform bg-gradient-to-r from-cyan-500 to-blue-500 transition-all duration-300 group-hover:scale-x-100'></span>
                 </a>
               ))}
             </div>
           </div>
 
+          {/* Right Menu */}
           <div className='hidden items-center space-x-4 md:flex'>
             <div className='relative'>
               <div className='pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3'>
@@ -136,13 +131,17 @@ const Navbar = ({ onProfileClick }) => {
               )}
             </div>
 
-            <button
-              onClick={() => navigate('/conversations')}
-              className='group rounded-xl bg-white/50 p-2 text-gray-500 backdrop-blur-sm transition-all duration-300 hover:bg-white hover:text-cyan-600 focus:ring-2 focus:ring-cyan-500/50 focus:outline-none'
-            >
-              <MessageCircle className='h-5 w-5 group-hover:animate-pulse' />
-            </button>
+            {/* Messages Icon: Only show if logged in */}
+            {isLoggedIn && (
+              <button
+                onClick={() => navigate('/conversations')}
+                className='group rounded-xl bg-white/50 p-2 text-gray-500 backdrop-blur-sm transition-all duration-300 hover:bg-white hover:text-cyan-600 focus:ring-2 focus:ring-cyan-500/50 focus:outline-none'
+              >
+                <MessageCircle className='h-5 w-5 group-hover:animate-pulse' />
+              </button>
+            )}
 
+            {/* Profile */}
             <div className='relative'>
               <button
                 className='group flex rounded-xl bg-white/50 p-1 text-sm backdrop-blur-sm transition-all duration-300 hover:bg-white focus:ring-2 focus:ring-cyan-500/50 focus:outline-none'
@@ -154,7 +153,9 @@ const Navbar = ({ onProfileClick }) => {
                 }}
               >
                 <div className='flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-cyan-400 to-blue-500 transition-transform duration-300 group-hover:scale-105'>
-                  <span className='text-sm font-semibold text-white'>JD</span>
+                  <span className='text-sm font-semibold text-white'>
+                    {username ? username[0].toUpperCase() : 'JD'}
+                  </span>
                 </div>
               </button>
 

@@ -28,6 +28,9 @@ import Signup from './pages/Signup';
 import UpdateArtist from './pages/UpdateArtist';
 import UpdateArtwork from './pages/UpdateArtwork';
 import UpdateEquipment from './pages/UpdateEquipment';
+import JobsScreen from './pages/JobsScreen';
+import JobDetails from './pages/JobDetails';
+import CreateJob from './pages/CreateJob';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -48,6 +51,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path='/conversations' element={<ConversationsScreen />} />
         <Route path='/purchase/:artworkId' element={<PurchasePage />} />
         <Route path='/order-confirmation' element={<OrderConfirmationPage />} />
+        <Route path='/jobs' element={<JobsScreen />} />
+        <Route path='/jobs/:id' element={<JobDetails />} />
+        <Route path='/jobs/create' element={<CreateJob />} />
         {/* Admin routes */}
         <Route path='/admin' element={<AdminLogin />} />
         <Route

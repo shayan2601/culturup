@@ -7,6 +7,7 @@ import { useLocation } from 'react-router-dom';
 const ChatScreen = () => {
   const location = useLocation();
   const artistId = location.state?.artistId;
+  console.log("artistId::::::: ", artistId)
   const userData = JSON.parse(localStorage.getItem('userData'));
   const token = localStorage.getItem('authToken');
 
@@ -20,24 +21,40 @@ const ChatScreen = () => {
   // 🔹 Fetch artist details
   const fetchArtist = async () => {
     console.log('userData?.user_type: ', userData?.user_type);
-    try {
-      if (userData?.user_type == 'artist') {
-        const res = await axios.get(
-          `http://shoaibahmad.pythonanywhere.com/api/artist-profiles/${artistId}/`,
-          { headers: { Authorization: `Token ${token}` } }
-        );
 
+    const tokenHeader = { headers: { Authorization: `Token ${token}` } };
+
+    // Determine primary and fallback URLs based on user_type
+    const urls =
+      userData?.user_type === 'artist'
+        ? [
+            `http://shoaibahmad.pythonanywhere.com/api/artist-profiles/${artistId}/`,
+            `http://shoaibahmad.pythonanywhere.com/api/buyer-profiles/${artistId}/`,
+          ]
+        : [
+            `http://shoaibahmad.pythonanywhere.com/api/buyer-profiles/${artistId}/`,
+            `http://shoaibahmad.pythonanywhere.com/api/artist-profiles/${artistId}/`,
+          ];
+
+    for (let url of urls) {
+      try {
+        const res = await axios.get(url, tokenHeader);
         setArtist(res.data);
+        return; // stop after successful fetch
+      } catch (err) {
+        // Only log error if it's not 404
+        if (err.response?.status !== 404) {
+          console.error('Error fetching profile from:', url, err);
+        }
+        // If 404, try next URL automatically
       }
-    } catch (err) {
-      const res = await axios.get(
-        `http://shoaibahmad.pythonanywhere.com/api/buyer-profiles/${artistId}/`,
-        { headers: { Authorization: `Token ${token}` } }
-      );
-      setArtist(res.data);
-      console.error('Error fetching artist details:', err);
     }
+
+    // If both fail
+    console.error('Profile not found for artistId:', artistId);
+    setArtist(null);
   };
+
 
   // 🔹 Fetch related artworks
   const fetchArtworks = async () => {
