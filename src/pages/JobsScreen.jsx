@@ -48,7 +48,7 @@ const JobsScreen = () => {
     const fetchCategories = async () => {
       try {
         const res = await axios.get(
-          'https://shoaibahmad.pythonanywhere.com/api/jobs/categories/',
+          'https://shoaibahmad.pythonanywhere.com/api/categories/',
           { headers: { Authorization: `Token ${token}` } }
         );
         setCategories(res.data);
@@ -237,7 +237,7 @@ const JobsScreen = () => {
               <p className='text-gray-600 mb-3 line-clamp-3'>{job.description}</p>
               <div className='flex flex-wrap gap-2 mb-3'>
                 <span className='rounded-full bg-cyan-100 px-2 py-1 text-xs font-medium text-cyan-800'>
-                  {job.category.name}
+                  {job?.category?.name}
                 </span>
                 <span className='rounded-full bg-purple-100 px-2 py-1 text-xs font-medium text-purple-800'>
                   {job.experience_level.toUpperCase()}
