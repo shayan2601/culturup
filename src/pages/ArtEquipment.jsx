@@ -1,12 +1,17 @@
 import Navbar from '@components/Navbar';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { ShoppingCart, RefreshCw } from 'lucide-react';
+import { useCart } from 'src/context/CartContext';
 
 const ArtEquipment = () => {
   const [equipments, setEquipments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState('All');
   const [error, setError] = useState(null);
+  const [addingId, setAddingId] = useState(null);
+
+  const { addToCart } = useCart();
 
   const filters = ['All', 'Available', 'Unavailable'];
 
@@ -15,12 +20,10 @@ const ArtEquipment = () => {
   }, [activeFilter]);
 
   const fetchEquipments = async () => {
-    console.log('FETCH:::');
     try {
       setLoading(true);
       setError(null);
 
-      // Build query params dynamically
       let params = {};
       if (activeFilter === 'Available') params.is_available = 'true';
       if (activeFilter === 'Unavailable') params.is_available = 'false';
@@ -38,16 +41,33 @@ const ArtEquipment = () => {
     }
   };
 
+  const handleAddToCart = (item) => {
+    setAddingId(item.id);
+    addToCart(
+      {
+        id: item.id,
+        name: item.name,
+        price: item.price || 0,
+        image: item.image,
+      },
+      'equipment'
+    );
+    setTimeout(() => setAddingId(null), 800);
+  };
+
   return (
     <div className='min-h-screen bg-gray-50'>
       <Navbar />
+
       <div className='mx-auto mt-10 max-w-7xl px-4 sm:px-6 lg:px-8'>
+        {/* Header */}
         <div className='mb-8 flex items-center justify-between'>
           <h2 className='text-3xl font-bold text-gray-900'>Art Equipment</h2>
           <button
             onClick={fetchEquipments}
-            className='text-sm font-medium text-cyan-600 hover:text-cyan-500'
+            className='flex items-center gap-2 text-sm font-medium text-cyan-600 hover:text-cyan-500'
           >
+            <RefreshCw size={16} />
             Refresh List
           </button>
         </div>
@@ -83,9 +103,10 @@ const ArtEquipment = () => {
               {equipments.map((item) => (
                 <div
                   key={item.id}
-                  className='group relative overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg'
+                  className='group flex flex-col overflow-hidden rounded-lg bg-white shadow-md transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg'
                 >
-                  <div className='h-48 overflow-hidden'>
+                  {/* Image */}
+                  <div className='relative h-48 w-full overflow-hidden'>
                     <img
                       src={
                         item.image ||
@@ -94,21 +115,44 @@ const ArtEquipment = () => {
                       alt={item.name}
                       className='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
                     />
+                    <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3'>
+                      <h3 className='text-lg font-semibold text-white'>{item.name}</h3>
+                      <p
+                        className={`text-sm ${
+                          item.is_available ? 'text-green-400' : 'text-red-400'
+                        }`}
+                      >
+                        {item.is_available ? 'Available' : 'Unavailable'}
+                      </p>
+                    </div>
                   </div>
-                  <div className='absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/70 to-transparent p-4'>
-                    <h3 className='text-lg font-bold text-white'>{item.name}</h3>
-                    <p className='text-sm text-white/80'>
-                      {item.is_available ? 'Available' : 'Unavailable'}
-                    </p>
-                  </div>
-                  <div className='bg-white p-4'>
-                    <p className='text-sm text-gray-600'>{item.description}</p>
+
+                  {/* Content */}
+                  <div className='flex flex-1 flex-col justify-between p-4'>
+                    <p className='text-sm text-gray-600 line-clamp-2'>{item.description}</p>
+
                     <div className='mt-3 flex items-center justify-between'>
-                      <span className='text-sm font-medium text-cyan-600'>View Details</span>
                       <span className='rounded bg-gray-100 px-2 py-1 text-xs text-gray-600'>
                         {item.equipment_type || 'General'}
                       </span>
+                      <span className='text-sm font-semibold text-cyan-700'>
+                        Rs. {item.price || 0}
+                      </span>
                     </div>
+
+                    {/* Add to Cart Button */}
+                    <button
+                      disabled={!item.is_available}
+                      onClick={() => handleAddToCart(item)}
+                      className={`mt-4 flex items-center justify-center gap-2 rounded-lg py-2 font-medium transition ${
+                        item.is_available
+                          ? 'bg-cyan-600 text-white hover:bg-cyan-700'
+                          : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      }`}
+                    >
+                      <ShoppingCart size={16} />
+                      {addingId === item.id ? 'Adding...' : 'Add to Cart'}
+                    </button>
                   </div>
                 </div>
               ))}

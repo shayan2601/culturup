@@ -9,6 +9,8 @@ import {
 } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ShoppingCart } from 'lucide-react';
+import { useCart } from 'src/context/CartContext';
 
 const Navbar = ({ onProfileClick }) => {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -16,7 +18,7 @@ const Navbar = ({ onProfileClick }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState('');
   const navigate = useNavigate();
-
+  const { cartItems } = useCart();
   useEffect(() => {
     const token = localStorage.getItem('authToken');
     const user = JSON.parse(localStorage.getItem('userData'));
@@ -130,6 +132,19 @@ const Navbar = ({ onProfileClick }) => {
                 </div>
               )}
             </div>
+            {isLoggedIn && (
+              <button
+                onClick={() => navigate('/cart')}
+                className="relative text-gray-700 hover:text-cyan-600"
+              >
+                <ShoppingCart className="h-6 w-6" />
+                {cartItems.length > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-cyan-600 text-white text-xs rounded-full px-1.5">
+                    {cartItems.length}
+                  </span>
+                )}
+              </button>
+            )}
 
             {/* Messages Icon: Only show if logged in */}
             {isLoggedIn && (

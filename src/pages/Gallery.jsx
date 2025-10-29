@@ -1,11 +1,13 @@
 import Navbar from '@components/Navbar';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // ✅ Import navigation hook
 
 const Gallery = () => {
   const [artworks, setArtworks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // ✅ initialize navigate
 
   useEffect(() => {
     fetchArtworks();
@@ -14,7 +16,6 @@ const Gallery = () => {
   const fetchArtworks = async () => {
     try {
       setLoading(true);
-      // Replace this URL with your actual artworks API endpoint
       const response = await axios.get('https://shoaibahmad.pythonanywhere.com/api/artworks/');
       setArtworks(response.data.results || []);
     } catch (err) {
@@ -23,6 +24,11 @@ const Gallery = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  // ✅ Navigate to artwork detail
+  const navigateToArtworkDetail = (artworkId) => {
+    navigate(`/artwork/${artworkId}`);
   };
 
   return (
@@ -42,7 +48,8 @@ const Gallery = () => {
             {artworks.map((art) => (
               <div
                 key={art.id}
-                className='group relative overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg'
+                onClick={() => navigateToArtworkDetail(art.id)} // ✅ Click handler
+                className='group relative cursor-pointer overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg'
               >
                 <img
                   src={

@@ -1,7 +1,18 @@
 import axios from 'axios';
-import { Bookmark, CheckCircle, ChevronLeft, Eye, Heart, Share2 } from 'lucide-react';
+import {
+  Bookmark,
+  CheckCircle,
+  ChevronLeft,
+  Eye,
+  Heart,
+  Share2,
+  ShoppingCart,
+  Trash2,
+} from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import Navbar from './Navbar';
+import { useCart } from 'src/context/CartContext';
 
 const ArtworkDetailPage = () => {
   const { artworkId } = useParams();
@@ -11,6 +22,10 @@ const ArtworkDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const [addingId, setAddingId] = useState(null);
+
+  // 🛒 Cart Context
+  const { cart, addToCart, removeFromCart } = useCart();
 
   useEffect(() => {
     fetchArtwork();
@@ -29,6 +44,21 @@ const ArtworkDetailPage = () => {
     }
   };
 
+  // 🛒 Add to Cart Handler
+  const handleAddToCart = (item) => {
+    setAddingId(item.id);
+    addToCart({
+      id: item.id,
+      title: item.title,
+      price: item.price || 0,
+      image: item.image || item.watermarked_image,
+      qty: 1,
+      type: 'artwork',
+    });
+    setTimeout(() => setAddingId(null), 800);
+  };
+
+  // 💰 Format price
   const formatPrice = (price) =>
     new Intl.NumberFormat('en-PK', {
       style: 'currency',
@@ -54,7 +84,9 @@ const ArtworkDetailPage = () => {
   const category = artwork.category || {};
 
   return (
-    <div className='min-h-screen bg-gray-50 py-6'>
+    <div className='relative min-h-screen bg-gray-50 py-1'>
+      <Navbar />
+
       <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
         {/* Back button */}
         <div className='mb-6'>
@@ -125,7 +157,7 @@ const ArtworkDetailPage = () => {
               </div>
               <p className='mb-4 text-sm text-gray-600'>{artwork.description}</p>
 
-              {/* Price */}
+              {/* Price & Add to Cart */}
               <div className='mb-6 border-t border-b py-4'>
                 <p className='mb-1 text-sm text-gray-500'>Price</p>
                 <p className='text-3xl font-bold text-gray-900'>{formatPrice(artwork.price)}</p>
@@ -136,12 +168,17 @@ const ArtworkDetailPage = () => {
                   Type: <span className='font-medium'>{artwork.artwork_type}</span>
                 </p>
 
-                {/* Purchase Button */}
+                {/* 🛒 Add to Cart Button */}
                 <button
-                  onClick={() => navigate(`/purchase/${artwork.id}`)}
-                  className='mt-5 w-full rounded-lg bg-cyan-600 py-3 font-medium text-white transition hover:bg-cyan-700'
+                  onClick={() => handleAddToCart(artwork)}
+                  disabled={addingId === artwork.id}
+                  className={`mt-5 w-full rounded-lg py-3 font-medium text-white transition ${
+                    addingId === artwork.id
+                      ? 'bg-green-600'
+                      : 'bg-cyan-600 hover:bg-cyan-700'
+                  }`}
                 >
-                  Purchase
+                  {addingId === artwork.id ? 'Added!' : 'Add to Cart'}
                 </button>
               </div>
 
@@ -172,6 +209,41 @@ const ArtworkDetailPage = () => {
           </div>
         </div>
       </div>
+
+      {/* 🛒 Floating Cart Drawer */}
+      {cart?.length > 0 && (
+        <div className='fixed bottom-4 right-4 w-80 rounded-lg border bg-white p-4 shadow-lg'>
+          <div className='mb-3 flex items-center justify-between'>
+            <h3 className='text-lg font-semibold text-gray-800'>Your Cart</h3>
+            <ShoppingCart className='h-5 w-5 text-cyan-600' />
+          </div>
+          <ul className='max-h-60 overflow-y-auto'>
+            {cart?.map((item) => (
+              <li
+                key={item.id}
+                className='mb-2 flex items-center justify-between border-b pb-2 text-sm'
+              >
+                <span className='font-medium text-gray-700 line-clamp-1'>{item.title}</span>
+                <div className='flex items-center gap-2'>
+                  <span className='text-gray-500'>x{item.qty}</span>
+                  <button
+                    onClick={() => removeFromCart(item.id)}
+                    className='text-xs text-red-500 hover:text-red-600'
+                  >
+                    <Trash2 className='h-4 w-4' />
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+          <button
+            onClick={() => navigate('/checkout')}
+            className='mt-4 w-full rounded bg-cyan-600 px-4 py-2 text-sm font-semibold text-white hover:bg-cyan-700'
+          >
+            Checkout
+          </button>
+        </div>
+      )}
     </div>
   );
 };

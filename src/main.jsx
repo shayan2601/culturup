@@ -31,89 +31,96 @@ import UpdateEquipment from './pages/UpdateEquipment';
 import JobsScreen from './pages/JobsScreen';
 import JobDetails from './pages/JobDetails';
 import CreateJob from './pages/CreateJob';
+import { CartProvider } from './context/CartContext';
+import CartPage from './pages/CartPage';
+import CheckoutPage from './pages/CheckoutPage';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        {/* Public routes */}
-        <Route path='/' element={<Dashboard />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<Signup />} />
-        <Route path='/equipments' element={<ArtEquipment />} />
-        <Route path='/profile' element={<ProfilePage />} />
-        <Route path='/artwork/:artworkId' element={<ArtworkDetailPage />} />
-        <Route path='/explore-artists' element={<ExploreArtists />} />
-        <Route path='/gallery' element={<Gallery />} />
-        {/* <Route path="/chat" element={<ChatList />} /> */}
-        <Route path='/chat' element={<ChatScreen />} />
-        <Route path='/chat/:conversationId' element={<ChatWindow />} />
-        <Route path='/conversations' element={<ConversationsScreen />} />
-        <Route path='/purchase/:artworkId' element={<PurchasePage />} />
-        <Route path='/order-confirmation' element={<OrderConfirmationPage />} />
-        <Route path='/jobs' element={<JobsScreen />} />
-        <Route path='/jobs/:id' element={<JobDetails />} />
-        <Route path='/jobs/create' element={<CreateJob />} />
-        {/* Admin routes */}
-        <Route path='/admin' element={<AdminLogin />} />
-        <Route
-          path='/admin/dashboard'
-          element={
-            <AdminProtectedRoute>
-              <AdminDashboard />
-            </AdminProtectedRoute>
-          }
-        />
-        <Route
-          path='/admin/create-equipment'
-          element={
-            <AdminProtectedRoute>
-              <CreateEquipment />
-            </AdminProtectedRoute>
-          }
-        />
-        <Route
-          path='/admin/equipments'
-          element={
-            <AdminProtectedRoute>
-              <AllEquipments />
-            </AdminProtectedRoute>
-          }
-        />
-        <Route
-          path='/admin/update-equipment/:id'
-          element={
-            <AdminProtectedRoute>
-              <UpdateEquipment />
-            </AdminProtectedRoute>
-          }
-        />
-        <Route
-          path='/admin/artists'
-          element={
-            <AdminProtectedRoute>
-              <AllArtists />
-            </AdminProtectedRoute>
-          }
-        />
-        <Route
-          path='/admin/update-artist/:id'
-          element={
-            <AdminProtectedRoute>
-              <UpdateArtist />
-            </AdminProtectedRoute>
-          }
-        />
-        <Route
-          path='/admin/artist/:id'
-          element={
-            <AdminProtectedRoute>
-              <ArtistDetails />
-            </AdminProtectedRoute>
-          }
-        />
-        <Route path='/update-artwork/:id' element={<UpdateArtwork />} />
-      </Routes>
-    </BrowserRouter>
+    <CartProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Public routes */}
+          <Route path='/' element={<Dashboard />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/equipments' element={<ArtEquipment />} />
+          <Route path='/profile' element={<ProfilePage />} />
+          <Route path='/artwork/:artworkId' element={<ArtworkDetailPage />} />
+          <Route path='/explore-artists' element={<ExploreArtists />} />
+          <Route path='/gallery' element={<Gallery />} />
+          {/* <Route path="/chat" element={<ChatList />} /> */}
+          <Route path='/chat' element={<ChatScreen />} />
+          <Route path='/chat/:conversationId' element={<ChatWindow />} />
+          <Route path='/conversations' element={<ConversationsScreen />} />
+          <Route path='/purchase/:artworkId' element={<PurchasePage />} />
+          <Route path='/order-confirmation' element={<OrderConfirmationPage />} />
+          <Route path='/jobs' element={<JobsScreen />} />
+          <Route path='/jobs/:id' element={<JobDetails />} />
+          <Route path='/cart' element={<CartPage />} />
+          <Route path='/checkout' element={<CheckoutPage />} />
+          <Route path='/jobs/create' element={<CreateJob />} />
+          {/* Admin routes */}
+          <Route path='/admin' element={<AdminLogin />} />
+          <Route
+            path='/admin/dashboard'
+            element={
+              <AdminProtectedRoute>
+                <AdminDashboard />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path='/admin/create-equipment'
+            element={
+              <AdminProtectedRoute>
+                <CreateEquipment />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path='/admin/equipments'
+            element={
+              <AdminProtectedRoute>
+                <AllEquipments />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path='/admin/update-equipment/:id'
+            element={
+              <AdminProtectedRoute>
+                <UpdateEquipment />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path='/admin/artists'
+            element={
+              <AdminProtectedRoute>
+                <AllArtists />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path='/admin/update-artist/:id'
+            element={
+              <AdminProtectedRoute>
+                <UpdateArtist />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route
+            path='/admin/artist/:id'
+            element={
+              <AdminProtectedRoute>
+                <ArtistDetails />
+              </AdminProtectedRoute>
+            }
+          />
+          <Route path='/update-artwork/:id' element={<UpdateArtwork />} />
+        </Routes>
+      </BrowserRouter>
+    </CartProvider>
   </React.StrictMode>
 );
