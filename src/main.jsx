@@ -7,19 +7,25 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import AdminProtectedRoute from './components/AdminProtectedRoute';
+import { CartProvider } from './context/CartContext';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminLogin from './pages/AdminLogin';
 import AllArtists from './pages/AllArtists';
 import AllEquipments from './pages/AllEquipments';
 import ArtEquipment from './pages/ArtEquipment';
 import ArtistDetails from './pages/ArtistDetails';
+import CartPage from './pages/CartPage';
 import ChatScreen from './pages/ChatScreen';
 import ChatWindow from './pages/ChatWindow';
+import CheckoutPage from './pages/CheckoutPage';
 import ConversationsScreen from './pages/ConversationsScreen';
 import CreateEquipment from './pages/CreateEquipment';
+import CreateJob from './pages/CreateJob';
 import Dashboard from './pages/Dashboard';
 import ExploreArtists from './pages/ExploreArtists';
 import Gallery from './pages/Gallery';
+import JobDetails from './pages/JobDetails';
+import JobsScreen from './pages/JobsScreen';
 import Login from './pages/Login';
 import OrderConfirmationPage from './pages/OrderConfirmationPage';
 import ProfilePage from './pages/Profile';
@@ -28,12 +34,6 @@ import Signup from './pages/Signup';
 import UpdateArtist from './pages/UpdateArtist';
 import UpdateArtwork from './pages/UpdateArtwork';
 import UpdateEquipment from './pages/UpdateEquipment';
-import JobsScreen from './pages/JobsScreen';
-import JobDetails from './pages/JobDetails';
-import CreateJob from './pages/CreateJob';
-import { CartProvider } from './context/CartContext';
-import CartPage from './pages/CartPage';
-import CheckoutPage from './pages/CheckoutPage';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

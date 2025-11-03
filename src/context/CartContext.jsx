@@ -21,9 +21,7 @@ export const CartProvider = ({ children }) => {
     if (existing) {
       setCartItems((prev) =>
         prev.map((i) =>
-          i.id === item.id && i.type === type
-            ? { ...i, quantity: i.quantity + 1 }
-            : i
+          i.id === item.id && i.type === type ? { ...i, quantity: i.quantity + 1 } : i
         )
       );
     } else {
@@ -39,24 +37,17 @@ export const CartProvider = ({ children }) => {
   // ➕ Increase quantity
   const increaseQuantity = (id, type) => {
     setCartItems((prev) =>
-      prev.map((i) =>
-        i.id === id && i.type === type
-          ? { ...i, quantity: i.quantity + 1 }
-          : i
-      )
+      prev.map((i) => (i.id === id && i.type === type ? { ...i, quantity: i.quantity + 1 } : i))
     );
   };
 
   // ➖ Decrease quantity
   const decreaseQuantity = (id, type) => {
-    setCartItems((prev) =>
-      prev
-        .map((i) =>
-          i.id === id && i.type === type
-            ? { ...i, quantity: i.quantity - 1 }
-            : i
-        )
-        .filter((i) => i.quantity > 0) // remove if zero
+    setCartItems(
+      (prev) =>
+        prev
+          .map((i) => (i.id === id && i.type === type ? { ...i, quantity: i.quantity - 1 } : i))
+          .filter((i) => i.quantity > 0) // remove if zero
     );
   };
 
@@ -64,10 +55,7 @@ export const CartProvider = ({ children }) => {
   const clearCart = () => setCartItems([]);
 
   // 💰 Total price
-  const totalPrice = cartItems.reduce(
-    (sum, i) => sum + (Number(i.price) || 0) * i.quantity,
-    0
-  );
+  const totalPrice = cartItems.reduce((sum, i) => sum + (Number(i.price) || 0) * i.quantity, 0);
 
   return (
     <CartContext.Provider

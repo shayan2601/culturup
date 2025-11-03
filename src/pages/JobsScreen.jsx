@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import Navbar from '@components/Navbar';
 import Modal from '@components/Modal';
-
+import Navbar from '@components/Navbar';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const JobsScreen = () => {
   const [jobs, setJobs] = useState([]);
@@ -47,10 +46,9 @@ const JobsScreen = () => {
     // Fetch categories
     const fetchCategories = async () => {
       try {
-        const res = await axios.get(
-          'https://shoaibahmad.pythonanywhere.com/api/categories/',
-          { headers: { Authorization: `Token ${token}` } }
-        );
+        const res = await axios.get('https://shoaibahmad.pythonanywhere.com/api/categories/', {
+          headers: { Authorization: `Token ${token}` },
+        });
         setCategories(res.data);
       } catch (err) {
         console.log('Failed to fetch categories');
@@ -64,10 +62,10 @@ const JobsScreen = () => {
     try {
       setLoading(true);
       const params = { ...filters };
-      const res = await axios.get(
-        'https://shoaibahmad.pythonanywhere.com/api/jobs/',
-        { headers: { Authorization: `Token ${token}` }, params }
-      );
+      const res = await axios.get('https://shoaibahmad.pythonanywhere.com/api/jobs/', {
+        headers: { Authorization: `Token ${token}` },
+        params,
+      });
       setJobs(res.data.results);
       setLoading(false);
     } catch (err) {
@@ -147,7 +145,7 @@ const JobsScreen = () => {
           <h1 className='text-3xl font-bold text-gray-800'>Available Jobs</h1>
           <button
             onClick={() => setIsModalOpen(true)}
-            className='rounded-lg bg-cyan-600 py-2 px-5 text-white text-lg font-semibold transition-all hover:bg-cyan-700 shadow-md'
+            className='rounded-lg bg-cyan-600 px-5 py-2 text-lg font-semibold text-white shadow-md transition-all hover:bg-cyan-700'
           >
             + Create Job
           </button>
@@ -222,20 +220,20 @@ const JobsScreen = () => {
           {jobs.map((job) => (
             <div
               key={job.id}
-              className='relative rounded-xl border border-gray-200 bg-white p-5 shadow-md hover:shadow-xl transition-shadow duration-300'
+              className='relative rounded-xl border border-gray-200 bg-white p-5 shadow-md transition-shadow duration-300 hover:shadow-xl'
             >
-              <div className='flex justify-between items-center mb-2'>
+              <div className='mb-2 flex items-center justify-between'>
                 <h2 className='text-xl font-semibold text-gray-800'>{job.title}</h2>
                 <span
-                  className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusColor(
+                  className={`rounded-full px-2 py-1 text-xs font-semibold ${getStatusColor(
                     job.status
                   )}`}
                 >
                   {job.status.replace('_', ' ').toUpperCase()}
                 </span>
               </div>
-              <p className='text-gray-600 mb-3 line-clamp-3'>{job.description}</p>
-              <div className='flex flex-wrap gap-2 mb-3'>
+              <p className='mb-3 line-clamp-3 text-gray-600'>{job.description}</p>
+              <div className='mb-3 flex flex-wrap gap-2'>
                 <span className='rounded-full bg-cyan-100 px-2 py-1 text-xs font-medium text-cyan-800'>
                   {job?.category?.name}
                 </span>
@@ -243,16 +241,18 @@ const JobsScreen = () => {
                   {job.experience_level.toUpperCase()}
                 </span>
               </div>
-              <div className='flex justify-between items-center text-sm text-gray-500 mb-3'>
-                <span>Budget: ${job.budget_min} - ${job.budget_max}</span>
+              <div className='mb-3 flex items-center justify-between text-sm text-gray-500'>
+                <span>
+                  Budget: ${job.budget_min} - ${job.budget_max}
+                </span>
                 <span>Deadline: {new Date(job.deadline).toLocaleDateString()}</span>
               </div>
-              <div className='flex justify-between items-center text-xs text-gray-400 mb-3'>
+              <div className='mb-3 flex items-center justify-between text-xs text-gray-400'>
                 <span>Total Bids: {job.total_bids}</span>
               </div>
               <button
                 onClick={() => navigate(`/jobs/${job.id}`)}
-                className='mt-2 w-full rounded-lg bg-cyan-600 py-2 text-white font-medium transition-all hover:bg-cyan-700'
+                className='mt-2 w-full rounded-lg bg-cyan-600 py-2 font-medium text-white transition-all hover:bg-cyan-700'
               >
                 View Details
               </button>
@@ -347,7 +347,7 @@ const JobsScreen = () => {
           <button
             type='submit'
             disabled={loadingForm}
-            className='rounded-lg bg-cyan-600 py-2 text-white font-medium transition-all hover:bg-cyan-700 disabled:opacity-50'
+            className='rounded-lg bg-cyan-600 py-2 font-medium text-white transition-all hover:bg-cyan-700 disabled:opacity-50'
           >
             {loadingForm ? 'Creating...' : 'Create Job'}
           </button>

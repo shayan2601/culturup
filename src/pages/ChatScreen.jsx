@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 const ChatScreen = () => {
   const location = useLocation();
   const artistId = location.state?.artistId;
-  console.log("artistId::::::: ", artistId)
+  console.log('artistId::::::: ', artistId);
   const userData = JSON.parse(localStorage.getItem('userData'));
   const token = localStorage.getItem('authToken');
 
@@ -54,7 +54,6 @@ const ChatScreen = () => {
     console.error('Profile not found for artistId:', artistId);
     setArtist(null);
   };
-
 
   // 🔹 Fetch related artworks
   const fetchArtworks = async () => {

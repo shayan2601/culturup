@@ -11,8 +11,9 @@ import {
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Navbar from './Navbar';
 import { useCart } from 'src/context/CartContext';
+
+import Navbar from './Navbar';
 
 const ArtworkDetailPage = () => {
   const { artworkId } = useParams();
@@ -173,9 +174,7 @@ const ArtworkDetailPage = () => {
                   onClick={() => handleAddToCart(artwork)}
                   disabled={addingId === artwork.id}
                   className={`mt-5 w-full rounded-lg py-3 font-medium text-white transition ${
-                    addingId === artwork.id
-                      ? 'bg-green-600'
-                      : 'bg-cyan-600 hover:bg-cyan-700'
+                    addingId === artwork.id ? 'bg-green-600' : 'bg-cyan-600 hover:bg-cyan-700'
                   }`}
                 >
                   {addingId === artwork.id ? 'Added!' : 'Add to Cart'}
@@ -212,7 +211,7 @@ const ArtworkDetailPage = () => {
 
       {/* 🛒 Floating Cart Drawer */}
       {cart?.length > 0 && (
-        <div className='fixed bottom-4 right-4 w-80 rounded-lg border bg-white p-4 shadow-lg'>
+        <div className='fixed right-4 bottom-4 w-80 rounded-lg border bg-white p-4 shadow-lg'>
           <div className='mb-3 flex items-center justify-between'>
             <h3 className='text-lg font-semibold text-gray-800'>Your Cart</h3>
             <ShoppingCart className='h-5 w-5 text-cyan-600' />
@@ -223,7 +222,7 @@ const ArtworkDetailPage = () => {
                 key={item.id}
                 className='mb-2 flex items-center justify-between border-b pb-2 text-sm'
               >
-                <span className='font-medium text-gray-700 line-clamp-1'>{item.title}</span>
+                <span className='line-clamp-1 font-medium text-gray-700'>{item.title}</span>
                 <div className='flex items-center gap-2'>
                   <span className='text-gray-500'>x{item.qty}</span>
                   <button

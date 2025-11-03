@@ -1,6 +1,6 @@
-import { AnimatePresence, motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 export default function UploadArtworkModal({
   isOpen,
@@ -23,12 +23,9 @@ export default function UploadArtworkModal({
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get(
-          'https://shoaibahmad.pythonanywhere.com/api/categories/',
-          {
-            headers: { Authorization: `Token ${token}` },
-          }
-        );
+        const res = await axios.get('https://shoaibahmad.pythonanywhere.com/api/categories/', {
+          headers: { Authorization: `Token ${token}` },
+        });
         setCategories(res.data);
       } catch (err) {
         console.log('⚠️ Failed to load categories:', err.message);
@@ -197,8 +194,8 @@ export default function UploadArtworkModal({
                     ? 'Updating...'
                     : 'Uploading...'
                   : mode === 'edit'
-                  ? 'Update'
-                  : 'Upload'}
+                    ? 'Update'
+                    : 'Upload'}
               </button>
             </div>
           </form>

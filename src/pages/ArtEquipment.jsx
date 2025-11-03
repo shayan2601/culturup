@@ -1,7 +1,7 @@
 import Navbar from '@components/Navbar';
 import axios from 'axios';
+import { RefreshCw, ShoppingCart } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { ShoppingCart, RefreshCw } from 'lucide-react';
 import { useCart } from 'src/context/CartContext';
 
 const ArtEquipment = () => {
@@ -115,7 +115,7 @@ const ArtEquipment = () => {
                       alt={item.name}
                       className='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
                     />
-                    <div className='absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3'>
+                    <div className='absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/70 to-transparent p-3'>
                       <h3 className='text-lg font-semibold text-white'>{item.name}</h3>
                       <p
                         className={`text-sm ${
@@ -129,7 +129,7 @@ const ArtEquipment = () => {
 
                   {/* Content */}
                   <div className='flex flex-1 flex-col justify-between p-4'>
-                    <p className='text-sm text-gray-600 line-clamp-2'>{item.description}</p>
+                    <p className='line-clamp-2 text-sm text-gray-600'>{item.description}</p>
 
                     <div className='mt-3 flex items-center justify-between'>
                       <span className='rounded bg-gray-100 px-2 py-1 text-xs text-gray-600'>
@@ -147,7 +147,7 @@ const ArtEquipment = () => {
                       className={`mt-4 flex items-center justify-center gap-2 rounded-lg py-2 font-medium transition ${
                         item.is_available
                           ? 'bg-cyan-600 text-white hover:bg-cyan-700'
-                          : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                          : 'cursor-not-allowed bg-gray-300 text-gray-500'
                       }`}
                     >
                       <ShoppingCart size={16} />

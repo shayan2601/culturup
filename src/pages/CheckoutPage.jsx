@@ -1,3 +1,4 @@
+import Navbar from '@components/Navbar';
 import { CardElement, Elements, useElements, useStripe } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
@@ -5,7 +6,6 @@ import { ArrowLeft, Lock } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from 'src/context/CartContext';
-import Navbar from '@components/Navbar';
 
 const stripePromise = loadStripe(
   'pk_test_51SMAaaKqTb4RI19EFCKN7pNOkdc73E1DenvwJY6jFkjtepystR8vDiVzCAZAMLlJZ94hHeFcxuGfd8jzGklyMJP000jwL7RcBN'
@@ -108,8 +108,8 @@ const CheckoutForm = ({ totalAmount, cartItems, clearCart }) => {
 
   return (
     <div>
-      <div className="mb-4 rounded-lg border bg-gray-50 p-4">
-        <CardElement className="rounded-md border bg-white p-2" />
+      <div className='mb-4 rounded-lg border bg-gray-50 p-4'>
+        <CardElement className='rounded-md border bg-white p-2' />
       </div>
       <button
         onClick={handlePayment}
@@ -118,12 +118,12 @@ const CheckoutForm = ({ totalAmount, cartItems, clearCart }) => {
           processing ? 'cursor-not-allowed opacity-70' : ''
         }`}
       >
-        <Lock className="h-5 w-5" />
+        <Lock className='h-5 w-5' />
         {processing ? 'Processing...' : 'Pay Securely'}
       </button>
 
-      {error && <p className="mt-3 text-sm text-red-500">{error}</p>}
-      {success && <p className="mt-3 text-sm text-green-600">Payment successful! Redirecting...</p>}
+      {error && <p className='mt-3 text-sm text-red-500'>{error}</p>}
+      {success && <p className='mt-3 text-sm text-green-600'>Payment successful! Redirecting...</p>}
     </div>
   );
 };
@@ -137,12 +137,12 @@ const CheckoutPage = () => {
 
   if (cartItems.length === 0)
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gray-50">
+      <div className='flex min-h-screen flex-col items-center justify-center bg-gray-50'>
         <Navbar />
-        <p className="text-lg text-gray-600 mt-10">Your cart is empty.</p>
+        <p className='mt-10 text-lg text-gray-600'>Your cart is empty.</p>
         <button
           onClick={() => navigate('/shop')}
-          className="mt-4 rounded bg-cyan-600 px-4 py-2 text-white hover:bg-cyan-700"
+          className='mt-4 rounded bg-cyan-600 px-4 py-2 text-white hover:bg-cyan-700'
         >
           Go to Shop
         </button>
@@ -150,40 +150,40 @@ const CheckoutPage = () => {
     );
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className='min-h-screen bg-gray-50'>
       <Navbar />
 
-      <div className="mx-auto max-w-3xl rounded-xl bg-white p-6 shadow-md mt-10">
+      <div className='mx-auto mt-10 max-w-3xl rounded-xl bg-white p-6 shadow-md'>
         <button
           onClick={() => navigate(-1)}
-          className="mb-6 flex items-center text-gray-600 hover:text-gray-900"
+          className='mb-6 flex items-center text-gray-600 hover:text-gray-900'
         >
-          <ArrowLeft className="mr-2 h-5 w-5" />
+          <ArrowLeft className='mr-2 h-5 w-5' />
           Back to Cart
         </button>
 
-        <h1 className="mb-6 text-2xl font-bold text-gray-900">Checkout</h1>
+        <h1 className='mb-6 text-2xl font-bold text-gray-900'>Checkout</h1>
 
         {/* Cart Summary */}
-        <div className="mb-6 space-y-4">
+        <div className='mb-6 space-y-4'>
           {cartItems.map((item) => (
             <div
               key={`${item.type}-${item.id}`}
-              className="flex items-center justify-between border-b pb-2"
+              className='flex items-center justify-between border-b pb-2'
             >
               <div>
-                <h3 className="font-medium text-gray-800">{item.name}</h3>
-                <p className="text-sm text-gray-500 capitalize">
+                <h3 className='font-medium text-gray-800'>{item.name}</h3>
+                <p className='text-sm text-gray-500 capitalize'>
                   {item.type} × {item.quantity}
                 </p>
               </div>
-              <p className="font-semibold text-gray-800">
+              <p className='font-semibold text-gray-800'>
                 ₨ {(item.price * item.quantity).toLocaleString()}
               </p>
             </div>
           ))}
 
-          <div className="flex justify-between border-t pt-3 font-semibold text-lg">
+          <div className='flex justify-between border-t pt-3 text-lg font-semibold'>
             <span>Total:</span>
             <span>₨ {totalPrice.toLocaleString()}</span>
           </div>
