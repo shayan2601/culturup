@@ -14,7 +14,7 @@ export default function ProfilePage() {
   const [artworks, setArtworks] = useState([]);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [selectedImageFile, setSelectedImageFile] = useState(null);
-
+  const [editingArtwork, setEditingArtwork] = useState(null);
   const fileInputRef = useRef();
   const userData = JSON.parse(localStorage.getItem('userData'));
   const token = localStorage.getItem('authToken');
@@ -36,7 +36,7 @@ export default function ProfilePage() {
       if (userType === 'artist') {
         axios
           .get(`https://shoaibahmad.pythonanywhere.com/api/artist-profiles/${userId}/artworks/`)
-          .then((res) => setArtworks(res.data));
+          .then((res) => setArtworks(res.data?.results || []));
       }
     }
   }, [userId]);
@@ -152,17 +152,36 @@ export default function ProfilePage() {
         <>
           <div className='mx-auto mt-10 max-w-6xl px-4'>
             <button
-              onClick={() => setShowUploadModal(true)}
+              onClick={() => {
+                setEditingArtwork(null);
+                setShowUploadModal(true);
+              }}
               className='mb-6 rounded-xl bg-cyan-600 px-5 py-2 text-white hover:bg-cyan-700'
             >
               + Upload Artwork
             </button>
-            <ArtworksGrid artworks={artworks} onEdit={(id) => console.log('Edit', id)} />
+
+            <ArtworksGrid
+              artworks={artworks}
+              onEdit={(id) => {
+                const art = artworks.find((a) => a.id === id);
+                setEditingArtwork(art);
+                setShowUploadModal(true);
+              }}
+            />
           </div>
+
           <UploadArtworkModal
             isOpen={showUploadModal}
             onClose={() => setShowUploadModal(false)}
-            onUpload={() => setShowUploadModal(false)}
+            onUpload={(data) => {
+              console.log('Artwork saved:', data);
+              setShowUploadModal(false);
+              // Optional: refresh artwork list here
+            }}
+            token={token}
+            mode={editingArtwork ? 'edit' : 'create'}
+            artwork={editingArtwork}
           />
         </>
       )}
