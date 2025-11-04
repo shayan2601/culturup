@@ -19,6 +19,10 @@ export default function UploadArtworkModal({
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
 
+  // ✅ New fields
+  const [isAvailable, setIsAvailable] = useState(true);
+  const [isFeatured, setIsFeatured] = useState(false);
+
   // ✅ Fetch categories on open
   useEffect(() => {
     const fetchCategories = async () => {
@@ -43,6 +47,8 @@ export default function UploadArtworkModal({
       setPrice(artwork.price || '');
       setCategoryId(artwork.category?.id || '');
       setArtworkType(artwork.artwork_type || 'digital');
+      setIsAvailable(artwork.is_available ?? true);
+      setIsFeatured(artwork.is_featured ?? false);
     } else {
       setTitle('');
       setDescription('');
@@ -50,6 +56,8 @@ export default function UploadArtworkModal({
       setCategoryId('');
       setArtworkType('digital');
       setImage(null);
+      setIsAvailable(true);
+      setIsFeatured(false);
     }
   }, [mode, artwork]);
 
@@ -64,6 +72,8 @@ export default function UploadArtworkModal({
     formData.append('category_id', categoryId);
     formData.append('artwork_type', artworkType);
     formData.append('price', price);
+    formData.append('is_available', isAvailable);
+    formData.append('is_featured', isFeatured);
 
     if (image) formData.append('image', image);
 
@@ -174,6 +184,27 @@ export default function UploadArtworkModal({
               <option value='physical'>Physical</option>
               <option value='mixed'>Mixed</option>
             </select>
+
+            {/* ✅ New checkboxes */}
+            <div className='flex items-center gap-3'>
+              <label className='flex items-center gap-2'>
+                <input
+                  type='checkbox'
+                  checked={isAvailable}
+                  onChange={(e) => setIsAvailable(e.target.checked)}
+                />
+                <span>Available</span>
+              </label>
+
+              <label className='flex items-center gap-2'>
+                <input
+                  type='checkbox'
+                  checked={isFeatured}
+                  onChange={(e) => setIsFeatured(e.target.checked)}
+                />
+                <span>Featured</span>
+              </label>
+            </div>
 
             <div className='flex justify-end space-x-3'>
               <button

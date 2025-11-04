@@ -33,6 +33,8 @@ const JobsScreen = () => {
   const [deadline, setDeadline] = useState('');
   const [loadingForm, setLoadingForm] = useState(false);
   const [formError, setFormError] = useState('');
+  const [viewMode, setViewMode] = useState('my'); // my | all
+  const userData = JSON.parse(localStorage.getItem('userData'));
 
   const token = localStorage.getItem('authToken');
   const navigate = useNavigate();
@@ -66,7 +68,17 @@ const JobsScreen = () => {
         headers: { Authorization: `Token ${token}` },
         params,
       });
-      setJobs(res.data.results);
+      // setJobs(res.data.results);
+
+      const results = res.data.results;
+      console.log('Fetched RESUL: ', results);
+      console.log('Fetched Jobs: ', userData);
+      if (viewMode === 'my' && userData?.id) {
+        const myJobs = results.filter(job => job?.buyer_name == userData.username);
+        setJobs(myJobs);
+      } else {
+        setJobs(results);
+      }
       setLoading(false);
     } catch (err) {
       setError('Failed to load jobs.');
@@ -122,6 +134,10 @@ const JobsScreen = () => {
     }
   };
 
+  useEffect(() => {
+    fetchJobs();
+  }, [viewMode]);
+
   const getStatusColor = (status) => {
     switch (status) {
       case 'open':
@@ -150,6 +166,32 @@ const JobsScreen = () => {
             + Create Job
           </button>
         </div>
+
+        {/* My Jobs / All Jobs Toggle */}
+        <div className="mb-4 flex gap-3">
+          <button
+            className={`px-4 py-2 rounded-lg font-medium border ${
+              viewMode === 'my'
+                ? 'bg-cyan-600 text-white border-cyan-600'
+                : 'bg-white text-gray-600 border-gray-300'
+            }`}
+            onClick={() => setViewMode('my')}
+          >
+            My Jobs
+          </button>
+
+          <button
+            className={`px-4 py-2 rounded-lg font-medium border ${
+              viewMode === 'all'
+                ? 'bg-cyan-600 text-white border-cyan-600'
+                : 'bg-white text-gray-600 border-gray-300'
+            }`}
+            onClick={() => setViewMode('all')}
+          >
+            All Jobs
+          </button>
+        </div>
+
 
         {/* Filters */}
         <div className='mb-6 grid gap-4 rounded-lg bg-white p-4 shadow-sm sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
