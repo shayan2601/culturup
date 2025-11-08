@@ -24,7 +24,7 @@ const UpdateArtwork = () => {
         },
       });
       setForm(res.data);
-      setImagePreview(res.data.image); // show existing image
+      setImagePreview(res.data.image);
     } catch (err) {
       console.error('Error fetching artwork:', err);
       alert('Failed to fetch artwork details.');
@@ -63,7 +63,7 @@ const UpdateArtwork = () => {
       await axios.patch(`https://shoaibahmad.pythonanywhere.com/api/artworks/${id}/`, formData, {
         headers: {
           Authorization: `Token ${token}`,
-          'Content-Type': 'multipart/form-data', // ✅ Important
+          'Content-Type': 'multipart/form-data',
         },
       });
 
@@ -90,7 +90,6 @@ const UpdateArtwork = () => {
         <h1 className='mb-6 text-3xl font-bold text-cyan-700'>Update Artwork</h1>
 
         <form onSubmit={handleSubmit} className='space-y-5'>
-          {/* Artwork Image Preview */}
           {imagePreview && (
             <div className='mb-4 flex justify-center'>
               <img
@@ -101,7 +100,6 @@ const UpdateArtwork = () => {
             </div>
           )}
 
-          {/* Image Upload */}
           <div>
             <label className='mb-1 block font-medium'>Replace Image (optional)</label>
             <input

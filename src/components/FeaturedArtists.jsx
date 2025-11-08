@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const FeaturedArtists = () => {
   const [artists, setArtists] = useState([]);
@@ -12,7 +12,6 @@ const FeaturedArtists = () => {
   const fetchArtists = async () => {
     try {
       const res = await axios.get('https://shoaibahmad.pythonanywhere.com/api/artist-profiles/');
-      // Show maximum 6 artists only
       setArtists(res.data.results.slice(0, 6));
     } catch (err) {
       console.error('Error fetching artists:', err);

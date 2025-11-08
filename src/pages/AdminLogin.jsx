@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const AdminLogin = () => {
@@ -25,13 +25,11 @@ const AdminLogin = () => {
 
       const { token, email, username, user_id } = response.data;
 
-      // ✅ Store credentials
       localStorage.setItem('authToken', token);
       localStorage.setItem('adminData', JSON.stringify({ email, username, user_id }));
 
       setMessage({ type: 'success', text: 'Login successful!' });
 
-      // Reset form and navigate to admin dashboard
       setFormData({ username: '', password: '' });
       navigate('/admin/dashboard');
     } catch (error) {

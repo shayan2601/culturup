@@ -60,7 +60,6 @@ const ArtEquipment = () => {
       <Navbar />
 
       <div className='mx-auto mt-10 max-w-7xl px-4 sm:px-6 lg:px-8'>
-        {/* Header */}
         <div className='mb-8 flex items-center justify-between'>
           <h2 className='text-3xl font-bold text-gray-900'>Art Equipment</h2>
           <button
@@ -72,7 +71,6 @@ const ArtEquipment = () => {
           </button>
         </div>
 
-        {/* Filters */}
         <div className='mb-8 flex flex-wrap gap-2'>
           {filters.map((filter) => (
             <button
@@ -89,7 +87,6 @@ const ArtEquipment = () => {
           ))}
         </div>
 
-        {/* Loading / Error States */}
         {loading ? (
           <div className='py-10 text-center text-gray-500'>Loading equipments...</div>
         ) : error ? (
@@ -98,14 +95,12 @@ const ArtEquipment = () => {
           <div className='py-10 text-center text-gray-600'>No equipment found.</div>
         ) : (
           <>
-            {/* Equipment Grid */}
             <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4'>
               {equipments.map((item) => (
                 <div
                   key={item.id}
                   className='group flex flex-col overflow-hidden rounded-lg bg-white shadow-md transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg'
                 >
-                  {/* Image */}
                   <div className='relative h-48 w-full overflow-hidden'>
                     <img
                       src={
@@ -127,7 +122,6 @@ const ArtEquipment = () => {
                     </div>
                   </div>
 
-                  {/* Content */}
                   <div className='flex flex-1 flex-col justify-between p-4'>
                     <p className='line-clamp-2 text-sm text-gray-600'>{item.description}</p>
 
@@ -140,7 +134,6 @@ const ArtEquipment = () => {
                       </span>
                     </div>
 
-                    {/* Add to Cart Button */}
                     <button
                       disabled={!item.is_available}
                       onClick={() => handleAddToCart(item)}

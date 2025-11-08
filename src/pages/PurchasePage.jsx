@@ -7,9 +7,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const stripePromise = loadStripe(
   'pk_test_51SMAaaKqTb4RI19EFCKN7pNOkdc73E1DenvwJY6jFkjtepystR8vDiVzCAZAMLlJZ94hHeFcxuGfd8jzGklyMJP000jwL7RcBN'
-); // Replace with your own publishable key
+);
 
-// ---- Inner Checkout Form Component ----
 const CheckoutForm = ({ artwork }) => {
   const stripe = useStripe();
   const elements = useElements();
@@ -26,11 +25,10 @@ const CheckoutForm = ({ artwork }) => {
     let authtoken = localStorage.getItem('authToken');
 
     try {
-      // 1️⃣ Create payment record
       const paymentRes = await axios.post(
         'https://shoaibahmad.pythonanywhere.com/api/payments/',
         {
-          payer: 1, // Replace with logged-in user ID
+          payer: 1,
           payee: artwork.artist?.id,
           amount: artwork.price,
           payment_method: 'stripe',
@@ -43,7 +41,6 @@ const CheckoutForm = ({ artwork }) => {
 
       const transactionId = paymentRes.data.transaction_id;
 
-      // 2️⃣ Process Stripe PaymentIntent
       const processRes = await axios.post(
         `https://shoaibahmad.pythonanywhere.com/api/payments/${paymentRes.data.id}/process/`,
         {
@@ -56,18 +53,16 @@ const CheckoutForm = ({ artwork }) => {
 
       const clientSecret = processRes.data.client_secret;
 
-      // 3️⃣ Confirm payment using Stripe.js
       const cardElement = elements.getElement(CardElement);
       const { paymentIntent, error: stripeError } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
           card: cardElement,
-          billing_details: { name: 'Test Buyer' }, // Replace with real buyer name
+          billing_details: { name: 'Test Buyer' },
         },
       });
 
       if (stripeError) throw stripeError;
 
-      // 4️⃣ Confirm payment on backend
       await axios.post(
         'https://shoaibahmad.pythonanywhere.com/api/payments/confirm_stripe_payment/',
         { payment_intent_id: paymentIntent.id },
@@ -77,17 +72,16 @@ const CheckoutForm = ({ artwork }) => {
       setSuccess(true);
       setProcessing(false);
 
-      // 🎯 Navigate with ALL order details
       navigate('/order-confirmation', {
         state: {
           artworkTitle: artwork.title,
-          artworkImage: artwork.image || artwork.image_url, // Adjust based on your API
+          artworkImage: artwork.image || artwork.image_url,
           artistName: artwork.artist?.name || artwork.artist?.username,
           price: `$${artwork.price}`,
-          orderId: `ORD-${paymentRes.data.id}`, // Use payment ID or generate unique ID
+          orderId: `ORD-${paymentRes.data.id}`,
           transactionId: transactionId,
           paymentMethod: 'Stripe',
-          email: localStorage.getItem('userEmail') || 'your-email@example.com', // Get from user data
+          email: localStorage.getItem('userEmail') || 'your-email@example.com',
           purchaseDate: new Date().toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
@@ -125,13 +119,12 @@ const CheckoutForm = ({ artwork }) => {
   );
 };
 
-// ---- Main Page ----
 const PurchasePage = () => {
   const { artworkId } = useParams();
   const navigate = useNavigate();
   const [artwork, setArtwork] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [token] = useState('your_auth_token_here'); // TODO: Replace with your actual user token
+  const [token] = useState('your_auth_token_here');
 
   useEffect(() => {
     fetchArtwork();
@@ -193,7 +186,6 @@ const PurchasePage = () => {
           </div>
         </div>
 
-        {/* Stripe Payment Form */}
         <Elements stripe={stripePromise}>
           <CheckoutForm artwork={artwork} token={token} />
         </Elements>

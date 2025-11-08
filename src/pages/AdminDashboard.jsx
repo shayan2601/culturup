@@ -1,6 +1,5 @@
-// src/pages/AdminDashboard.jsx
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   CartesianGrid,
@@ -77,7 +76,6 @@ const AdminDashboard = () => {
 
         {error && <p className='mb-4 text-red-600'>{error}</p>}
 
-        {/* Stats */}
         <div className='mb-10 grid grid-cols-1 gap-6 sm:grid-cols-3'>
           {stats ? (
             Object.entries(stats).map(([key, value]) => (
@@ -96,7 +94,6 @@ const AdminDashboard = () => {
           )}
         </div>
 
-        {/* Charts */}
         <div className='grid grid-cols-1 gap-10 lg:grid-cols-2'>
           <div className='rounded-2xl bg-white p-6 shadow'>
             <h3 className='mb-4 text-lg font-semibold text-gray-700'>Monthly User Growth</h3>

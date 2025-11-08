@@ -17,13 +17,13 @@ const UpdateArtist = () => {
 
   const fetchArtist = async () => {
     try {
-      const token = localStorage.getItem('authToken'); // 🔹 Get token from localStorage
+      const token = localStorage.getItem('authToken');
 
       const res = await axios.get(
         `https://shoaibahmad.pythonanywhere.com/api/artist-profiles/${id}/`,
         {
           headers: {
-            Authorization: `Bearer ${token}`, // 🔹 Include Bearer token
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -45,7 +45,7 @@ const UpdateArtist = () => {
     try {
       await axios.patch(`https://shoaibahmad.pythonanywhere.com/api/artist-profiles/${id}/`, form, {
         headers: {
-          Authorization: `Token ${token}`, // 🔹 Include Bearer token
+          Authorization: `Token ${token}`,
         },
       });
       alert('✅ Artist updated successfully!');

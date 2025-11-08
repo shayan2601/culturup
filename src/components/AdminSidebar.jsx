@@ -1,5 +1,4 @@
-// src/components/AdminSidebar.jsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FaBoxes, FaChartBar, FaSignOutAlt, FaUserAlt } from 'react-icons/fa';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -29,7 +28,6 @@ const AdminSidebar = ({ onLogout }) => {
           </button>
         ))}
 
-        {/* Equipments */}
         <div>
           <button
             onClick={() => setEquipmentOpen(!equipmentOpen)}
@@ -70,7 +68,6 @@ const AdminSidebar = ({ onLogout }) => {
           )}
         </div>
 
-        {/* 🎨 Artists */}
         <div>
           <button
             onClick={() => setArtistOpen(!artistOpen)}

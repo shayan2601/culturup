@@ -16,13 +16,13 @@ const ArtistDetails = () => {
   }, []);
 
   const fetchArtist = async () => {
-    const token = localStorage.getItem('authToken'); // 🔹 Get token from localStorage
+    const token = localStorage.getItem('authToken');
 
     const res = await axios.get(
       `https://shoaibahmad.pythonanywhere.com/api/artist-profiles/${id}/`,
       {
         headers: {
-          Authorization: `Bearer ${token}`, // 🔹 Include Bearer token
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -30,12 +30,12 @@ const ArtistDetails = () => {
   };
 
   const fetchArtworks = async () => {
-    const token = localStorage.getItem('authToken'); // 🔹 Get token from localStorage
+    const token = localStorage.getItem('authToken');
     const res = await axios.get(
       `https://shoaibahmad.pythonanywhere.com/api/artist-profiles/${id}/artworks/`,
       {
         headers: {
-          Authorization: `Bearer ${token}`, // 🔹 Include Bearer token
+          Authorization: `Bearer ${token}`,
         },
       }
     );

@@ -1,6 +1,6 @@
-import { Bell, LogOut, MessageCircle, Search, Settings, User, X } from 'lucide-react';
+import { Bell, LogOut, MessageCircle, Search, Settings, User } from 'lucide-react';
 import { ShoppingCart } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from 'src/context/CartContext';
 
@@ -32,7 +32,6 @@ const Navbar = ({ onProfileClick }) => {
     <nav className='sticky top-0 z-50 border-b border-gray-100 bg-white/90 shadow-lg backdrop-blur-md'>
       <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
         <div className='flex h-16 justify-between'>
-          {/* Left Menu */}
           <div className='flex items-center'>
             <div className='flex flex-shrink-0 items-center'>
               <span className='bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-700 bg-clip-text text-2xl font-bold text-transparent'>
@@ -65,7 +64,6 @@ const Navbar = ({ onProfileClick }) => {
             </div>
           </div>
 
-          {/* Right Menu */}
           <div className='hidden items-center space-x-4 md:flex'>
             <div className='relative'>
               <div className='pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3'>
@@ -138,7 +136,6 @@ const Navbar = ({ onProfileClick }) => {
               </button>
             )}
 
-            {/* Messages Icon: Only show if logged in */}
             {isLoggedIn && (
               <button
                 onClick={() => navigate('/conversations')}
@@ -148,7 +145,6 @@ const Navbar = ({ onProfileClick }) => {
               </button>
             )}
 
-            {/* Profile */}
             <div className='relative'>
               <button
                 className='group flex rounded-xl bg-white/50 p-1 text-sm backdrop-blur-sm transition-all duration-300 hover:bg-white focus:ring-2 focus:ring-cyan-500/50 focus:outline-none'

@@ -44,7 +44,7 @@ const ChatWindow = () => {
 
     try {
       await messageService.sendMessage(msgData);
-      loadMessages(); // refresh after send
+      loadMessages();
     } catch (err) {
       console.error('Send failed:', err);
     }

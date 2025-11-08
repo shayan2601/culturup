@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import AdminSidebar from '../components/AdminSidebar';
@@ -26,7 +26,6 @@ const UpdateEquipment = () => {
     navigate('/admin');
   };
 
-  // Fetch existing equipment data
   useEffect(() => {
     const fetchEquipment = async () => {
       try {

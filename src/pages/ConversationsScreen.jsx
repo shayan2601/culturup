@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const ConversationsScreen = () => {
@@ -18,7 +18,7 @@ const ConversationsScreen = () => {
           headers: { Authorization: `Token ${token}` },
         });
 
-        // Group messages by conversation partner (artist or buyer)
+        
         const grouped = {};
         res.data.results.forEach((msg) => {
           const partner = msg.sender.id === user.id ? msg.receiver : msg.sender;
@@ -26,7 +26,7 @@ const ConversationsScreen = () => {
           grouped[partner.id].push(msg);
         });
 
-        // Convert to array
+        
         const convArray = Object.keys(grouped).map((id) => ({
           partner:
             grouped[id][0].sender.id === user.id ? grouped[id][0].receiver : grouped[id][0].sender,

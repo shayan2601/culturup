@@ -9,27 +9,26 @@ const ExploreArtists = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // 🔹 Default filter state (all required params included)
   const [filters, setFilters] = useState({
-    experience_level: 'beginner', // beginner | intermediate | expert
-    is_available: true, // true | false
-    min_hourly_rate: 50, // number
-    max_hourly_rate: 500, // number
-    search: '', // string
-    ordering: '-rating', // rating | -rating | hourly_rate | -hourly_rate
-    page: 1, // number
-    page_size: 20, // number (<= 100)
+    experience_level: 'beginner',
+    is_available: true,
+    min_hourly_rate: 50,
+    max_hourly_rate: 500,
+    search: '',
+    ordering: '-rating',
+    page: 1,
+    page_size: 20,
   });
 
   useEffect(() => {
     fetchArtists();
-  }, [filters]); // re-fetch when filters change
+  }, [filters]);
 
   const fetchArtists = async () => {
     try {
       setLoading(true);
 
-      const token = localStorage.getItem('token'); // optional
+      const token = localStorage.getItem('token');
 
       const response = await axios.get(
         'http://shoaibahmad.pythonanywhere.com/api/artist-profiles/',
@@ -57,7 +56,6 @@ const ExploreArtists = () => {
       <div className='mx-auto mt-10 max-w-7xl px-4 sm:px-6 lg:px-8'>
         <h2 className='mb-8 text-3xl font-bold text-gray-900'>Explore Artists</h2>
 
-        {/* 🔹 Filter Controls */}
         <div className='mb-6 flex flex-wrap items-center gap-4 rounded-lg bg-white p-4 shadow'>
           <select
             value={filters.experience_level}
@@ -121,7 +119,6 @@ const ExploreArtists = () => {
           </button>
         </div>
 
-        {/* 🔹 Results Section */}
         {loading ? (
           <div className='py-10 text-center text-gray-500'>Loading artists...</div>
         ) : error ? (

@@ -35,7 +35,6 @@ const Signup = () => {
     setLoading(true);
     setMessage(null);
 
-    // --- 🔒 FRONTEND VALIDATIONS ---
     if (!formData.password) {
       setMessage({ type: 'error', text: 'Password field is required.' });
       setLoading(false);

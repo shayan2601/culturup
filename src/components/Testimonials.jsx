@@ -1,4 +1,3 @@
-import React from 'react';
 const Testimonials = () => {
   const testimonials = [
     {
@@ -41,7 +40,7 @@ const Testimonials = () => {
                 />
               </div>
               <div className='pt-6 text-center'>
-                <p className='mb-4 text-gray-600 italic'>"{testimonial.feedback}"</p>
+                <p className='mb-4 text-gray-600 italic'>{testimonial.feedback}</p>
                 <h4 className='text-lg font-bold text-gray-900'>{testimonial.name}</h4>
                 <p className='text-sm text-gray-500'>{testimonial.role}</p>
               </div>

@@ -67,7 +67,6 @@ export default function ProfilePage() {
       : `https://shoaibahmad.pythonanywhere.com/api/buyer-profiles/${userId}/`;
 
     try {
-      // If buyer → use FormData to include image and text fields together
       if (!isArtist) {
         const formData = new FormData();
         formData.append('company_name', profileData.company_name || '');
@@ -87,7 +86,6 @@ export default function ProfilePage() {
         setProfileData(res.data);
         setProfileImage(res.data.user?.profile_image);
       } else {
-        // If artist → use your original JSON + optional image upload flow
         const updateData = {
           bio: profileData.bio || '',
           hourly_rate: profileData.hourly_rate || '0.00',
@@ -177,7 +175,6 @@ export default function ProfilePage() {
             onUpload={(data) => {
               console.log('Artwork saved:', data);
               setShowUploadModal(false);
-              // Optional: refresh artwork list here
             }}
             token={token}
             mode={editingArtwork ? 'edit' : 'create'}

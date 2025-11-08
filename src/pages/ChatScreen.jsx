@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { Image as ImageIcon, Send } from 'lucide-react';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const ChatScreen = () => {
@@ -18,13 +18,11 @@ const ChatScreen = () => {
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // 🔹 Fetch artist details
   const fetchArtist = async () => {
     console.log('userData?.user_type: ', userData?.user_type);
 
     const tokenHeader = { headers: { Authorization: `Token ${token}` } };
 
-    // Determine primary and fallback URLs based on user_type
     const urls =
       userData?.user_type === 'artist'
         ? [
@@ -40,22 +38,18 @@ const ChatScreen = () => {
       try {
         const res = await axios.get(url, tokenHeader);
         setArtist(res.data);
-        return; // stop after successful fetch
+        return;
       } catch (err) {
-        // Only log error if it's not 404
         if (err.response?.status !== 404) {
           console.error('Error fetching profile from:', url, err);
         }
-        // If 404, try next URL automatically
       }
     }
 
-    // If both fail
     console.error('Profile not found for artistId:', artistId);
     setArtist(null);
   };
 
-  // 🔹 Fetch related artworks
   const fetchArtworks = async () => {
     try {
       const res = await axios.get(
@@ -68,7 +62,6 @@ const ChatScreen = () => {
     }
   };
 
-  // 🔹 Fetch messages
   const fetchMessages = async () => {
     try {
       const res = await axios.get('http://shoaibahmad.pythonanywhere.com/api/messages/', {
@@ -81,13 +74,12 @@ const ChatScreen = () => {
           (msg.sender.id === artistId && msg.receiver.id === userData.id)
       );
 
-      setMessages(filtered.reverse()); // Reverse order for WhatsApp-style
+      setMessages(filtered.reverse());
     } catch (err) {
       console.error('Error fetching messages:', err);
     }
   };
 
-  // 🔹 Send message
   const sendMessage = async () => {
     if (!messageText.trim()) return;
     setLoading(true);
@@ -131,7 +123,6 @@ const ChatScreen = () => {
 
   return (
     <div className='flex h-screen flex-col bg-gradient-to-br from-gray-100 to-gray-200 md:flex-row'>
-      {/* Sidebar (Artist Info + Artworks) */}
       <motion.div
         initial={{ x: -100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -176,9 +167,7 @@ const ChatScreen = () => {
         </div>
       </motion.div>
 
-      {/* Main Chat Area */}
       <div className='flex flex-1 flex-col'>
-        {/* Header */}
         <div className='flex items-center bg-cyan-600 p-4 text-white shadow-md'>
           <img
             src={
@@ -196,7 +185,6 @@ const ChatScreen = () => {
           </div>
         </div>
 
-        {/* Messages */}
         <div className='flex flex-1 flex-col-reverse gap-3 overflow-y-auto bg-gray-50 p-4'>
           <div ref={messagesEndRef} />
           {messages.map((msg) => (
@@ -222,7 +210,6 @@ const ChatScreen = () => {
           ))}
         </div>
 
-        {/* Input */}
         <div className='flex items-center gap-2 border-t bg-white p-3 shadow-inner'>
           <input
             type='text'

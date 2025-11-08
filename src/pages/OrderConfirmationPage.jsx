@@ -17,7 +17,6 @@ const OrderConfirmationPage = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [confettiPieces, setConfettiPieces] = useState([]);
 
-  // Get data from navigation state
   const orderData = location.state || {};
   console.log('orderData;: ', orderData);
   const {
@@ -35,7 +34,6 @@ const OrderConfirmationPage = () => {
   useEffect(() => {
     setIsVisible(true);
 
-    // Generate confetti
     const pieces = Array.from({ length: 50 }, (_, i) => ({
       id: i,
       left: Math.random() * 100,
@@ -48,7 +46,6 @@ const OrderConfirmationPage = () => {
 
   return (
     <div className='relative min-h-screen overflow-hidden bg-gradient-to-br from-cyan-50 via-purple-50 to-pink-50 px-4 py-12'>
-      {/* Confetti */}
       {confettiPieces.map((piece) => (
         <div
           key={piece.id}
@@ -122,7 +119,6 @@ const OrderConfirmationPage = () => {
       `}</style>
 
       <div className='mx-auto max-w-3xl'>
-        {/* Success Icon */}
         <div className={`mb-8 flex justify-center ${isVisible ? 'animate-scale-in' : 'opacity-0'}`}>
           <div className='relative'>
             <div className='absolute inset-0 animate-pulse rounded-full bg-gradient-to-r from-cyan-400 to-purple-500 opacity-50 blur-2xl' />
@@ -145,13 +141,11 @@ const OrderConfirmationPage = () => {
           </div>
         </div>
 
-        {/* Main Card */}
         <div
           className={`gradient-border shadow-2xl ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}
           style={{ animationDelay: '0.2s' }}
         >
           <div className='rounded-3xl bg-white p-8 md:p-12'>
-            {/* Heading */}
             <div className='mb-8 text-center'>
               <h1 className='mb-4 bg-gradient-to-r from-cyan-600 via-purple-600 to-pink-600 bg-clip-text text-4xl font-bold text-transparent md:text-5xl'>
                 Payment Successful!
@@ -161,7 +155,6 @@ const OrderConfirmationPage = () => {
               </p>
             </div>
 
-            {/* Artwork Preview Card */}
             {artworkImage && (
               <div className='mb-6 rounded-2xl border border-gray-200 bg-gradient-to-br from-gray-50 to-gray-100 p-6'>
                 <div className='flex items-center gap-6'>
@@ -187,7 +180,6 @@ const OrderConfirmationPage = () => {
               </div>
             )}
 
-            {/* Order Details */}
             <div className='mb-8 rounded-2xl border border-gray-200 bg-gradient-to-br from-gray-50 to-gray-100 p-6'>
               <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
                 <div className='flex items-start gap-3'>
@@ -240,7 +232,6 @@ const OrderConfirmationPage = () => {
               </div>
             </div>
 
-            {/* Info Cards */}
             <div className='mb-8 grid grid-cols-1 gap-4 md:grid-cols-2'>
               <div className='transform rounded-xl border border-cyan-200 bg-gradient-to-br from-cyan-50 to-cyan-100 p-5 transition-transform hover:scale-105'>
                 <div className='mb-2 flex items-center gap-3'>
@@ -268,7 +259,6 @@ const OrderConfirmationPage = () => {
               </div>
             </div>
 
-            {/* Action Buttons */}
             <div className='flex flex-col gap-4 sm:flex-row'>
               <button
                 onClick={() => navigate('/gallery')}
@@ -287,7 +277,6 @@ const OrderConfirmationPage = () => {
               </button>
             </div>
 
-            {/* Footer Note */}
             <div className='mt-8 border-t border-gray-200 pt-6 text-center'>
               <p className='text-sm text-gray-500'>
                 Need help? Contact us at{' '}
@@ -297,7 +286,6 @@ const OrderConfirmationPage = () => {
           </div>
         </div>
 
-        {/* Thank You Message */}
         <div
           className={`mt-8 text-center ${isVisible ? 'animate-slide-up' : 'opacity-0'}`}
           style={{ animationDelay: '0.4s' }}

@@ -48,7 +48,6 @@ const CreateEquipment = () => {
     try {
       const token = localStorage.getItem('authToken');
 
-      // Build multipart form data
       const form = new FormData();
       form.append('name', formData.name);
       form.append('description', formData.description);

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Bookmark, Eye, Filter, Grid, Heart, List, Share2 } from 'lucide-react';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const RecentArtworks = () => {
@@ -18,7 +18,6 @@ const RecentArtworks = () => {
     try {
       setLoading(true);
       const response = await axios.get('https://shoaibahmad.pythonanywhere.com/api/artworks/');
-      // limit to 6 artworks
       setArtworks(response.data.results.slice(0, 6));
     } catch (err) {
       console.error('Error fetching artworks:', err);
@@ -120,7 +119,6 @@ const RecentArtworks = () => {
           ))}
         </div>
       ) : (
-        // LIST VIEW
         <div className='space-y-4'>
           {artworks.map((artwork) => (
             <div

@@ -3,7 +3,7 @@ import { CardElement, Elements, useElements, useStripe } from '@stripe/react-str
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
 import { ArrowLeft, Lock } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from 'src/context/CartContext';
 
@@ -26,16 +26,15 @@ const CheckoutForm = ({ totalAmount, cartItems, clearCart }) => {
     setError('');
 
     const authtoken = localStorage.getItem('authToken');
-    const userId = localStorage.getItem('userId'); // you can replace this with your logged-in user's ID
+    const userId = localStorage.getItem('userId');
     const userEmail = localStorage.getItem('userEmail') || 'your-email@example.com';
 
     try {
-      // 1️⃣ Create payment record (for entire cart)
       const paymentRes = await axios.post(
         'https://shoaibahmad.pythonanywhere.com/api/payments/',
         {
           payer: userId || 1,
-          payee: null, // You can handle per-artist distribution later
+          payee: null,
           amount: totalAmount,
           payment_method: 'stripe',
           status: 'pending',
@@ -47,7 +46,6 @@ const CheckoutForm = ({ totalAmount, cartItems, clearCart }) => {
 
       const transactionId = paymentRes.data.transaction_id;
 
-      // 2️⃣ Request Stripe PaymentIntent
       const processRes = await axios.post(
         `https://shoaibahmad.pythonanywhere.com/api/payments/${paymentRes.data.id}/process/`,
         { transaction_id: transactionId },
@@ -58,7 +56,6 @@ const CheckoutForm = ({ totalAmount, cartItems, clearCart }) => {
 
       const clientSecret = processRes.data.client_secret;
 
-      // 3️⃣ Confirm card payment
       const cardElement = elements.getElement(CardElement);
       const { paymentIntent, error: stripeError } = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
@@ -69,7 +66,6 @@ const CheckoutForm = ({ totalAmount, cartItems, clearCart }) => {
 
       if (stripeError) throw stripeError;
 
-      // 4️⃣ Confirm payment on backend
       await axios.post(
         'https://shoaibahmad.pythonanywhere.com/api/payments/confirm_stripe_payment/',
         { payment_intent_id: paymentIntent.id },
@@ -78,7 +74,6 @@ const CheckoutForm = ({ totalAmount, cartItems, clearCart }) => {
         }
       );
 
-      // ✅ Success
       setSuccess(true);
       clearCart();
 
@@ -128,9 +123,6 @@ const CheckoutForm = ({ totalAmount, cartItems, clearCart }) => {
   );
 };
 
-//
-// ---- Main Checkout Page ----
-//
 const CheckoutPage = () => {
   const navigate = useNavigate();
   const { cartItems, totalPrice, clearCart } = useCart();
@@ -164,7 +156,6 @@ const CheckoutPage = () => {
 
         <h1 className='mb-6 text-2xl font-bold text-gray-900'>Checkout</h1>
 
-        {/* Cart Summary */}
         <div className='mb-6 space-y-4'>
           {cartItems.map((item) => (
             <div
@@ -189,7 +180,6 @@ const CheckoutPage = () => {
           </div>
         </div>
 
-        {/* Stripe Payment Form */}
         <Elements stripe={stripePromise}>
           <CheckoutForm totalAmount={totalPrice} cartItems={cartItems} clearCart={clearCart} />
         </Elements>

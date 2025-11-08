@@ -19,11 +19,9 @@ export default function UploadArtworkModal({
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
 
-  // ✅ New fields
   const [isAvailable, setIsAvailable] = useState(true);
   const [isFeatured, setIsFeatured] = useState(false);
 
-  // ✅ Fetch categories on open
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -39,7 +37,6 @@ export default function UploadArtworkModal({
     if (isOpen) fetchCategories();
   }, [isOpen, token]);
 
-  // ✅ Fill fields when editing
   useEffect(() => {
     if (mode === 'edit' && artwork) {
       setTitle(artwork.title || '');
@@ -160,7 +157,6 @@ export default function UploadArtworkModal({
               required
             />
 
-            {/* ✅ Category dropdown */}
             <select
               value={categoryId}
               onChange={(e) => setCategoryId(e.target.value)}
@@ -185,7 +181,6 @@ export default function UploadArtworkModal({
               <option value='mixed'>Mixed</option>
             </select>
 
-            {/* ✅ New checkboxes */}
             <div className='flex items-center gap-3'>
               <label className='flex items-center gap-2'>
                 <input

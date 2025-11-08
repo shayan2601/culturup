@@ -25,7 +25,6 @@ const ArtworkDetailPage = () => {
   const [isLiked, setIsLiked] = useState(false);
   const [addingId, setAddingId] = useState(null);
 
-  // 🛒 Cart Context
   const { cart, addToCart, removeFromCart } = useCart();
 
   useEffect(() => {
@@ -45,7 +44,6 @@ const ArtworkDetailPage = () => {
     }
   };
 
-  // 🛒 Add to Cart Handler
   const handleAddToCart = (item) => {
     setAddingId(item.id);
     addToCart({
@@ -59,7 +57,6 @@ const ArtworkDetailPage = () => {
     setTimeout(() => setAddingId(null), 800);
   };
 
-  // 💰 Format price
   const formatPrice = (price) =>
     new Intl.NumberFormat('en-PK', {
       style: 'currency',
@@ -89,7 +86,6 @@ const ArtworkDetailPage = () => {
       <Navbar />
 
       <div className='mx-auto max-w-7xl px-4 sm:px-6 lg:px-8'>
-        {/* Back button */}
         <div className='mb-6'>
           <button
             onClick={() => navigate(-1)}
@@ -100,9 +96,7 @@ const ArtworkDetailPage = () => {
           </button>
         </div>
 
-        {/* Layout */}
         <div className='lg:grid lg:grid-cols-3 lg:gap-8'>
-          {/* Artwork Image */}
           <div className='mb-6 lg:col-span-2 lg:mb-0'>
             <div className='overflow-hidden rounded-lg bg-white shadow-md'>
               <img
@@ -145,7 +139,6 @@ const ArtworkDetailPage = () => {
             </div>
           </div>
 
-          {/* Details */}
           <div className='lg:col-span-1'>
             <div className='mb-6 rounded-lg bg-white p-6 shadow-md'>
               <h1 className='mb-2 text-2xl font-bold text-gray-900'>{artwork.title}</h1>
@@ -158,7 +151,6 @@ const ArtworkDetailPage = () => {
               </div>
               <p className='mb-4 text-sm text-gray-600'>{artwork.description}</p>
 
-              {/* Price & Add to Cart */}
               <div className='mb-6 border-t border-b py-4'>
                 <p className='mb-1 text-sm text-gray-500'>Price</p>
                 <p className='text-3xl font-bold text-gray-900'>{formatPrice(artwork.price)}</p>
@@ -169,7 +161,6 @@ const ArtworkDetailPage = () => {
                   Type: <span className='font-medium'>{artwork.artwork_type}</span>
                 </p>
 
-                {/* 🛒 Add to Cart Button */}
                 <button
                   onClick={() => handleAddToCart(artwork)}
                   disabled={addingId === artwork.id}
@@ -181,7 +172,6 @@ const ArtworkDetailPage = () => {
                 </button>
               </div>
 
-              {/* Artist Info */}
               <div className='border-t pt-4'>
                 <h3 className='mb-4 font-medium text-gray-900'>About the Artist</h3>
                 <div className='mb-3 flex items-center'>
@@ -209,7 +199,6 @@ const ArtworkDetailPage = () => {
         </div>
       </div>
 
-      {/* 🛒 Floating Cart Drawer */}
       {cart?.length > 0 && (
         <div className='fixed right-4 bottom-4 w-80 rounded-lg border bg-white p-4 shadow-lg'>
           <div className='mb-3 flex items-center justify-between'>

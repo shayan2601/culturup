@@ -39,7 +39,6 @@ const CartPage = () => {
                     </div>
                   </div>
 
-                  {/* Quantity Controls */}
                   <div className='flex items-center space-x-3'>
                     <button
                       onClick={() => decreaseQuantity(item.id, item.type)}
@@ -55,7 +54,6 @@ const CartPage = () => {
                       <PlusCircle size={20} />
                     </button>
 
-                    {/* Remove Button */}
                     <button
                       onClick={() => removeFromCart(item.id, item.type)}
                       className='text-red-500 hover:text-red-700'
@@ -67,7 +65,6 @@ const CartPage = () => {
               ))}
             </div>
 
-            {/* Summary */}
             <div className='mt-8 flex items-center justify-between border-t pt-4'>
               <h3 className='text-xl font-bold'>Total: Rs. {totalPrice}</h3>
               <div className='space-x-3'>

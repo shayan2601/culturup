@@ -21,7 +21,6 @@ const JobsScreen = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Create Job form state
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [categoryId, setCategoryId] = useState('');
@@ -33,7 +32,7 @@ const JobsScreen = () => {
   const [deadline, setDeadline] = useState('');
   const [loadingForm, setLoadingForm] = useState(false);
   const [formError, setFormError] = useState('');
-  const [viewMode, setViewMode] = useState('my'); // my | all
+  const [viewMode, setViewMode] = useState('my');
   const userData = JSON.parse(localStorage.getItem('userData'));
 
   const token = localStorage.getItem('authToken');
@@ -45,7 +44,6 @@ const JobsScreen = () => {
       return;
     }
 
-    // Fetch categories
     const fetchCategories = async () => {
       try {
         const res = await axios.get('https://shoaibahmad.pythonanywhere.com/api/categories/', {
@@ -68,13 +66,12 @@ const JobsScreen = () => {
         headers: { Authorization: `Token ${token}` },
         params,
       });
-      // setJobs(res.data.results);
 
       const results = res.data.results;
       console.log('Fetched RESUL: ', results);
       console.log('Fetched Jobs: ', userData);
       if (viewMode === 'my' && userData?.id) {
-        const myJobs = results.filter(job => job?.buyer_name == userData.username);
+        const myJobs = results.filter((job) => job?.buyer_name == userData.username);
         setJobs(myJobs);
       } else {
         setJobs(results);
@@ -117,8 +114,7 @@ const JobsScreen = () => {
       );
       setLoadingForm(false);
       setIsModalOpen(false);
-      fetchJobs(); // Refresh jobs list
-      // Reset form
+      fetchJobs();
       setTitle('');
       setDescription('');
       setCategoryId('');
@@ -167,13 +163,12 @@ const JobsScreen = () => {
           </button>
         </div>
 
-        {/* My Jobs / All Jobs Toggle */}
-        <div className="mb-4 flex gap-3">
+        <div className='mb-4 flex gap-3'>
           <button
-            className={`px-4 py-2 rounded-lg font-medium border ${
+            className={`rounded-lg border px-4 py-2 font-medium ${
               viewMode === 'my'
-                ? 'bg-cyan-600 text-white border-cyan-600'
-                : 'bg-white text-gray-600 border-gray-300'
+                ? 'border-cyan-600 bg-cyan-600 text-white'
+                : 'border-gray-300 bg-white text-gray-600'
             }`}
             onClick={() => setViewMode('my')}
           >
@@ -181,10 +176,10 @@ const JobsScreen = () => {
           </button>
 
           <button
-            className={`px-4 py-2 rounded-lg font-medium border ${
+            className={`rounded-lg border px-4 py-2 font-medium ${
               viewMode === 'all'
-                ? 'bg-cyan-600 text-white border-cyan-600'
-                : 'bg-white text-gray-600 border-gray-300'
+                ? 'border-cyan-600 bg-cyan-600 text-white'
+                : 'border-gray-300 bg-white text-gray-600'
             }`}
             onClick={() => setViewMode('all')}
           >
@@ -192,8 +187,6 @@ const JobsScreen = () => {
           </button>
         </div>
 
-
-        {/* Filters */}
         <div className='mb-6 grid gap-4 rounded-lg bg-white p-4 shadow-sm sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
           <input
             type='text'
@@ -257,7 +250,6 @@ const JobsScreen = () => {
           />
         </div>
 
-        {/* Jobs Grid */}
         <div className='grid gap-6 md:grid-cols-2 lg:grid-cols-3'>
           {jobs.map((job) => (
             <div
@@ -303,7 +295,6 @@ const JobsScreen = () => {
         </div>
       </div>
 
-      {/* Create Job Modal */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <h2 className='mb-4 text-2xl font-bold text-gray-800'>Create New Job</h2>
         {formError && <div className='mb-4 text-red-500'>{formError}</div>}

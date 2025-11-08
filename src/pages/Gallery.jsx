@@ -1,13 +1,13 @@
 import Navbar from '@components/Navbar';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // ✅ Import navigation hook
+import { useNavigate } from 'react-router-dom';
 
 const Gallery = () => {
   const [artworks, setArtworks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // ✅ initialize navigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchArtworks();
@@ -26,7 +26,6 @@ const Gallery = () => {
     }
   };
 
-  // ✅ Navigate to artwork detail
   const navigateToArtworkDetail = (artworkId) => {
     navigate(`/artwork/${artworkId}`);
   };
@@ -48,7 +47,7 @@ const Gallery = () => {
             {artworks.map((art) => (
               <div
                 key={art.id}
-                onClick={() => navigateToArtworkDetail(art.id)} // ✅ Click handler
+                onClick={() => navigateToArtworkDetail(art.id)}
                 className='group relative cursor-pointer overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-300 hover:shadow-lg'
               >
                 <img

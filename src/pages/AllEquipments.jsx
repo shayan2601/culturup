@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import AdminSidebar from '../components/AdminSidebar';
@@ -26,7 +26,6 @@ const AllEquipments = () => {
       const token = localStorage.getItem('authToken');
       let params = {};
 
-      // Apply filter dynamically
       if (filter === 'Available') params.is_available = 'true';
       if (filter === 'Unavailable') params.is_available = 'false';
 
@@ -35,7 +34,6 @@ const AllEquipments = () => {
         params,
       });
 
-      // Handle paginated response
       const results = response.data.results || [];
       setEquipments(results);
     } catch (err) {
@@ -58,7 +56,6 @@ const AllEquipments = () => {
         <div className='mb-6 flex items-center justify-between'>
           <h1 className='text-3xl font-bold text-cyan-700'>All Equipments</h1>
 
-          {/* Filter Buttons */}
           <div className='flex gap-2'>
             {['All', 'Available', 'Unavailable'].map((filter) => (
               <button
