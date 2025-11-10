@@ -236,9 +236,13 @@ const JobDetails = () => {
           },
         }
       );
+    } catch (err) {
+      console.error('Failed to accept bid:', err);
+      // alert(err.response?.data?.message || 'Failed to accept bid.');
 
-      const { message, payment_id, transaction_id } = res.data;
-      alert(message || 'Artist hired successfully!');
+      if (err?.response?.data?.error == 'Payment not completed for this job. Please pay first.') {
+        alert('Payment not completed for this job. Please pay first.');
+      }
 
       const acceptedBid = bids.find((b) => b.id === bidId);
       const amountToCharge =
@@ -246,19 +250,18 @@ const JobDetails = () => {
           ? parseFloat(acceptedBid.bid_amount)
           : parseFloat(job?.budget_max || 0);
 
-      const userData = JSON.parse(localStorage.getItem('userData'));
-
       const paymentRes = await axios.post(
-        'https://shoaibahmad.pythonanywhere.com/api/payments/hire_artist_payment',
+        'https://shoaibahmad.pythonanywhere.com/api/payments/hire_artist_payment/',
         {
           amount: amountToCharge,
           payment_method: 'stripe',
           job_id: id,
+          bid_id: acceptedBid?.id,
         },
         { headers: { Authorization: `Token ${token}` } }
       );
-
-      const newPaymentId = paymentRes.data.id;
+      console.log('paymentRes: ', paymentRes);
+      const newPaymentId = paymentRes.data.payment_id;
       const newTransactionId = paymentRes.data.transaction_id;
 
       setPendingPayment({ paymentId: newPaymentId, transactionId: newTransactionId });
@@ -270,9 +273,6 @@ const JobDetails = () => {
       );
 
       setJob((prev) => ({ ...prev, status: prev?.status }));
-    } catch (err) {
-      console.error('Failed to accept bid:', err);
-      alert(err.response?.data?.message || 'Failed to accept bid.');
     }
   };
 
