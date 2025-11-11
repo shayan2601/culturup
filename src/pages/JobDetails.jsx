@@ -157,7 +157,7 @@ const JobDetails = () => {
 
     try {
       const res = await axios.post(
-        `https://shoaibahmad.pythonanywhere.com/api/jobs/${id}/complete/`,
+        `https://shoaibahmad.pythonanywhere.com/api/jobs/${id}/complete_job/`,
         {},
         {
           headers: {
@@ -271,7 +271,6 @@ const JobDetails = () => {
           b.id === bidId ? { ...b, status: 'accepted' } : { ...b, status: 'rejected' }
         )
       );
-
       setJob((prev) => ({ ...prev, status: prev?.status }));
     }
   };
