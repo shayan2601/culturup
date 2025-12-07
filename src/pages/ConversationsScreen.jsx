@@ -14,7 +14,7 @@ const ConversationsScreen = () => {
       if (!token) return;
       try {
         setLoading(true);
-        const res = await axios.get('http://shoaibahmad.pythonanywhere.com/api/messages/', {
+        const res = await axios.get('https://shoaibahmad.pythonanywhere.com/api/messages/', {
           headers: { Authorization: `Token ${token}` },
         });
 

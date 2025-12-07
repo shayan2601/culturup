@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://shoaibahmad.pythonanywhere.com/api/messages/';
+const API_URL = 'https://shoaibahmad.pythonanywhere.com/api/messages/';
 
 const getConversations = async () => {
   const token = localStorage.getItem('authToken');

@@ -31,7 +31,7 @@ const ExploreArtists = () => {
       const token = localStorage.getItem('token');
 
       const response = await axios.get(
-        'http://shoaibahmad.pythonanywhere.com/api/artist-profiles/',
+        'https://shoaibahmad.pythonanywhere.com/api/artist-profiles/',
         {
           headers: token ? { Authorization: `Bearer ${token}` } : {},
           params: filters,

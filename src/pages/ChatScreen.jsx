@@ -26,12 +26,12 @@ const ChatScreen = () => {
     const urls =
       userData?.user_type === 'artist'
         ? [
-            `http://shoaibahmad.pythonanywhere.com/api/artist-profiles/${artistId}/`,
-            `http://shoaibahmad.pythonanywhere.com/api/buyer-profiles/${artistId}/`,
+            `https://shoaibahmad.pythonanywhere.com/api/artist-profiles/${artistId}/`,
+            `https://shoaibahmad.pythonanywhere.com/api/buyer-profiles/${artistId}/`,
           ]
         : [
-            `http://shoaibahmad.pythonanywhere.com/api/buyer-profiles/${artistId}/`,
-            `http://shoaibahmad.pythonanywhere.com/api/artist-profiles/${artistId}/`,
+            `https://shoaibahmad.pythonanywhere.com/api/buyer-profiles/${artistId}/`,
+            `https://shoaibahmad.pythonanywhere.com/api/artist-profiles/${artistId}/`,
           ];
 
     for (let url of urls) {
@@ -53,7 +53,7 @@ const ChatScreen = () => {
   const fetchArtworks = async () => {
     try {
       const res = await axios.get(
-        `http://shoaibahmad.pythonanywhere.com/api/artist-profiles/${artistId}/artworks/`,
+        `https://shoaibahmad.pythonanywhere.com/api/artist-profiles/${artistId}/artworks/`,
         { headers: { Authorization: `Token ${token}` } }
       );
       setArtworks(res.data);
@@ -64,7 +64,7 @@ const ChatScreen = () => {
 
   const fetchMessages = async () => {
     try {
-      const res = await axios.get('http://shoaibahmad.pythonanywhere.com/api/messages/', {
+      const res = await axios.get('https://shoaibahmad.pythonanywhere.com/api/messages/', {
         headers: { Authorization: `Token ${token}` },
       });
 
@@ -85,7 +85,7 @@ const ChatScreen = () => {
     setLoading(true);
     try {
       await axios.post(
-        'http://shoaibahmad.pythonanywhere.com/api/messages/',
+        'https://shoaibahmad.pythonanywhere.com/api/messages/',
         {
           receiver_id: artistId,
           content: messageText,
