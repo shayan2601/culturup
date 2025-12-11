@@ -15,6 +15,9 @@ export default function ProfilePage() {
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [selectedImageFile, setSelectedImageFile] = useState(null);
   const [editingArtwork, setEditingArtwork] = useState(null);
+  const [purchasesLoading, setPurchasesLoading] = useState(false);
+  const [purchases, setPurchases] = useState(null);
+  const [purchasesError, setPurchasesError] = useState(null);
   const fileInputRef = useRef();
   const userData = JSON.parse(localStorage.getItem('userData'));
   const token = localStorage.getItem('authToken');
@@ -40,6 +43,28 @@ export default function ProfilePage() {
       }
     }
   }, [userId]);
+
+  useEffect(() => {
+    if (activeTab === 'Purchases' && userId) {
+      fetchPurchases();
+    }
+  }, [activeTab, userId]);
+
+  const fetchPurchases = async () => {
+    setPurchasesLoading(true);
+    setPurchasesError(null);
+    try {
+      const response = await axios.get(
+        `https://shoaibahmad.pythonanywhere.com/api/buyer-profiles/${userId}/purchases/`
+      );
+      setPurchases(response.data);
+    } catch (err) {
+      setPurchasesError('Failed to load purchases.');
+      console.error(err);
+    } finally {
+      setPurchasesLoading(false);
+    }
+  };
 
   const triggerFileInput = () => fileInputRef.current.click();
 
@@ -144,6 +169,92 @@ export default function ProfilePage() {
           isEditing={isEditing}
           userType={userType}
         />
+      )}
+
+      {activeTab === 'Purchases' && (
+        <div className='mx-auto mt-10 max-w-3xl px-4'>
+          <h2 className='mb-4 text-2xl font-bold text-gray-900'>My Purchases</h2>
+
+          {purchasesLoading && <p>Loading purchases...</p>}
+          {purchasesError && <p className='text-red-500'>{purchasesError}</p>}
+
+          {purchases && (
+            <div>
+              <h3 className='mt-4 text-xl font-semibold'>Orders</h3>
+              {purchases.orders.length === 0 ? (
+                <p>No orders found.</p>
+              ) : (
+                purchases.orders.map((order) => (
+                  <div key={order.id} className='my-2 rounded border p-4'>
+                    <p>
+                      <strong>Order ID:</strong> {order.id}
+                    </p>
+                    <p>
+                      <strong>Status:</strong> {order.status}
+                    </p>
+                    <p>
+                      <strong>Total Amount:</strong> ${order.total_amount}
+                    </p>
+                    <p>
+                      <strong>Created At:</strong> {new Date(order.created_at).toLocaleString()}
+                    </p>
+
+                    <h4 className='mt-2 font-semibold'>Artwork Items:</h4>
+                    {order.artwork_items.map((item, idx) => (
+                      <div key={idx} className='ml-4'>
+                        <p>
+                          <strong>Title:</strong> {item.artwork_title}
+                        </p>
+                        <p>
+                          <strong>Artist:</strong> {item.artwork_artist}
+                        </p>
+                        <p>
+                          <strong>Quantity:</strong> {item.quantity}
+                        </p>
+                        <p>
+                          <strong>Price:</strong> ${item.price}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                ))
+              )}
+
+              <h3 className='mt-6 text-xl font-semibold'>Payments</h3>
+              {purchases.payments.length === 0 ? (
+                <p>No payments found.</p>
+              ) : (
+                purchases.payments.map((payment) => (
+                  <div key={payment.id} className='my-2 rounded border p-4'>
+                    <p>
+                      <strong>Payment ID:</strong> {payment.id}
+                    </p>
+                    <p>
+                      <strong>Payee:</strong> {payment.payee?.username}
+                    </p>
+                    <p>
+                      <strong>Amount:</strong> ${payment.amount}
+                    </p>
+                    <p>
+                      <strong>Method:</strong> {payment.payment_method}
+                    </p>
+                    <p>
+                      <strong>Status:</strong> {payment.status}
+                    </p>
+                    <p>
+                      <strong>Created At:</strong> {new Date(payment.created_at).toLocaleString()}
+                    </p>
+                    {payment.job && (
+                      <p>
+                        <strong>Job:</strong> {payment.job.title}
+                      </p>
+                    )}
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+        </div>
       )}
 
       {userType === 'artist' && activeTab === 'Artworks' && (
