@@ -19,7 +19,7 @@ const HeroSection = () => (
             Explore Gallery
           </Link>
           <Link
-            to='/artists'
+            to='/explore-artists'
             className='border-opacity-50 bg-opacity-10 hover:bg-opacity-20 inline-block rounded-md border border-white bg-white px-8 py-3 text-lg font-medium transition'
           >
             Find Artists

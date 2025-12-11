@@ -56,7 +56,8 @@ const ChatScreen = () => {
         `https://shoaibahmad.pythonanywhere.com/api/artist-profiles/${artistId}/artworks/`,
         { headers: { Authorization: `Token ${token}` } }
       );
-      setArtworks(res.data);
+      console.log('Artworks fetched:', res.data);
+      setArtworks(res.data?.results || []);
     } catch (err) {
       console.error('Error fetching artworks:', err);
     }

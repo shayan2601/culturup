@@ -166,9 +166,7 @@ const ExploreArtists = () => {
                     </p>
 
                     <div className='mt-4 flex gap-2'>
-                      <button className='text-sm font-medium text-cyan-600 hover:underline'>
-                        View Profile →
-                      </button>
+                      
                       <button
                         onClick={() => navigate('/chat', { state: { artistId: artist.user.id } })}
                         className='rounded-md bg-cyan-600 px-3 py-2 text-sm text-white hover:bg-cyan-700'
