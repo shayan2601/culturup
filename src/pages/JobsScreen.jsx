@@ -32,7 +32,7 @@ const JobsScreen = () => {
   const [deadline, setDeadline] = useState('');
   const [loadingForm, setLoadingForm] = useState(false);
   const [formError, setFormError] = useState('');
-  const [viewMode, setViewMode] = useState('my');
+  const [viewMode, setViewMode] = useState('all');
   const userData = JSON.parse(localStorage.getItem('userData'));
 
   const token = localStorage.getItem('authToken');

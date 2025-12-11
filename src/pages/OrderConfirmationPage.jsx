@@ -9,10 +9,11 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const OrderConfirmationPage = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const location = useLocation();
   const [isVisible, setIsVisible] = useState(false);
   const [confettiPieces, setConfettiPieces] = useState([]);
@@ -198,13 +199,6 @@ const OrderConfirmationPage = () => {
                   </div>
                 </div>
 
-                <div className='flex items-start gap-3'>
-                  <Mail className='mt-1 h-5 w-5 flex-shrink-0 text-pink-600' />
-                  <div>
-                    <p className='mb-1 text-sm text-gray-500'>Email Address</p>
-                    <p className='text-sm font-medium break-all text-gray-800'>{email}</p>
-                  </div>
-                </div>
 
                 <div className='flex items-start gap-3'>
                   <div className='mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center text-green-600'>
@@ -241,8 +235,7 @@ const OrderConfirmationPage = () => {
                   <h3 className='font-semibold text-gray-800'>Email Delivery</h3>
                 </div>
                 <p className='text-sm text-gray-600'>
-                  Your artwork will be sent to{' '}
-                  <span className='font-medium text-cyan-700'>{email}</span> within 5-10 minutes
+                  Your artwork will be sent to your email within 5-10 minutes
                 </p>
               </div>
 
@@ -258,25 +251,6 @@ const OrderConfirmationPage = () => {
                 </p>
               </div>
             </div>
-
-            <div className='flex flex-col gap-4 sm:flex-row'>
-              <button
-                onClick={() => navigate('/gallery')}
-                className='group flex flex-1 transform items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-600 to-purple-600 px-8 py-4 font-semibold text-white transition-all hover:scale-105 hover:shadow-lg'
-              >
-                Browse More Artworks
-                <ArrowRight className='h-5 w-5 transition-transform group-hover:translate-x-1' />
-              </button>
-
-              <button
-                onClick={() => navigate('/')}
-                className='flex flex-1 transform items-center justify-center gap-2 rounded-xl border-2 border-gray-300 bg-white px-8 py-4 font-semibold text-gray-700 transition-all hover:scale-105 hover:border-gray-400 hover:shadow-md'
-              >
-                <Home className='h-5 w-5' />
-                Go to Homepage
-              </button>
-            </div>
-
             <div className='mt-8 border-t border-gray-200 pt-6 text-center'>
               <p className='text-sm text-gray-500'>
                 Need help? Contact us at{' '}
