@@ -13,6 +13,24 @@ const Gallery = () => {
     fetchArtworks();
   }, []);
 
+  useEffect(() => {
+    const handleContextMenu = (e) => e.preventDefault();
+    document.addEventListener('contextmenu', handleContextMenu);
+
+    const handleVisibilityChange = () => {
+      const elems = document.querySelectorAll('.sensitive');
+      elems.forEach((el) => {
+        el.style.filter = document.visibilityState === 'hidden' ? 'blur(10px)' : 'none';
+      });
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, []);
+
   const fetchArtworks = async () => {
     try {
       setLoading(true);
