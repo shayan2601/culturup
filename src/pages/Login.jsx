@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import Navbar from '../components/Navbar';
 
@@ -10,7 +11,6 @@ const Login = () => {
     password: '',
   });
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState(null);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -21,7 +21,6 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage(null);
 
     try {
       const response = await axios.post(
@@ -34,14 +33,14 @@ const Login = () => {
       localStorage.setItem('authToken', token);
       localStorage.setItem('userData', JSON.stringify(user));
 
-      setMessage({ type: 'success', text: 'Login successful!' });
+      toast.success('Login successful!');
 
       setFormData({ username: '', password: '' });
 
       navigate('/');
     } catch (error) {
       const errMsg = error.response?.data?.error || 'Login failed';
-      setMessage({ type: 'error', text: errMsg });
+      toast.error(errMsg);
     } finally {
       setLoading(false);
     }
@@ -80,13 +79,7 @@ const Login = () => {
               {loading ? 'Logging in...' : 'Login'}
             </button>
 
-            {message && (
-              <p
-                className={`mt-2 text-center text-sm ${message.type === 'success' ? 'text-green-600' : 'text-red-500'}`}
-              >
-                {message.text}
-              </p>
-            )}
+            {/* react-toastify toasts are handled globally via ToastContainer in main.jsx */}
           </form>
         </div>
       </div>

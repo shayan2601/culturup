@@ -1,11 +1,11 @@
 import '@styles/custom.css';
 import '@styles/tailwind.css';
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import ArtworkDetailPage from '@components/ArtworkDetailPage';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
 import AdminProtectedRoute from './components/AdminProtectedRoute';
 import { CartProvider } from './context/CartContext';
 import AdminDashboard from './pages/AdminDashboard';
@@ -121,6 +121,14 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path='/update-artwork/:id' element={<UpdateArtwork />} />
         </Routes>
       </BrowserRouter>
+      <ToastContainer
+        position='top-right'
+        autoClose={3500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnHover
+      />
     </CartProvider>
   </React.StrictMode>
 );

@@ -4,7 +4,7 @@ import ProfileHeader from '@components/profile/ProfileHeader';
 import ProfileTabs from '@components/profile/ProfileTabs';
 import UploadArtworkModal from '@components/profile/UploadArtworkModal';
 import axios from 'axios';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 
 export default function ProfilePage() {
   const [profileData, setProfileData] = useState({});
@@ -24,33 +24,22 @@ export default function ProfilePage() {
   const userId = userData?.id;
   const userType = userData?.user_type;
 
-  useEffect(() => {
-    if (userId && token) {
-      const apiUrl =
-        userType === 'artist'
-          ? `https://shoaibahmad.pythonanywhere.com/api/artist-profiles/${userId}/`
-          : `https://shoaibahmad.pythonanywhere.com/api/buyer-profiles/${userId}/`;
-
-      axios.get(apiUrl, { headers: { Authorization: `Token ${token}` } }).then((res) => {
-        setProfileData(res.data);
-        setProfileImage(res.data.user?.profile_image);
-      });
-
-      if (userType === 'artist') {
-        axios
-          .get(`https://shoaibahmad.pythonanywhere.com/api/artist-profiles/${userId}/artworks/`)
-          .then((res) => setArtworks(res.data?.results || []));
-      }
+  // fetch artworks (memoized so we can call it safely from effects/handlers)
+  const fetchArtworks = useCallback(async () => {
+    if (!userId) return;
+    try {
+      const res = await axios.get(
+        `https://shoaibahmad.pythonanywhere.com/api/artist-profiles/${userId}/artworks/`
+      );
+      setArtworks(res.data?.results || []);
+    } catch (err) {
+      console.error('Failed to load artworks:', err.response?.data || err.message);
     }
   }, [userId]);
 
-  useEffect(() => {
-    if (activeTab === 'Purchases' && userId) {
-      fetchPurchases();
-    }
-  }, [activeTab, userId]);
-
-  const fetchPurchases = async () => {
+  // fetch purchases (memoized)
+  const fetchPurchases = useCallback(async () => {
+    if (!userId) return;
     setPurchasesLoading(true);
     setPurchasesError(null);
     try {
@@ -64,7 +53,32 @@ export default function ProfilePage() {
     } finally {
       setPurchasesLoading(false);
     }
-  };
+  }, [userId]);
+
+  useEffect(() => {
+    if (userId && token) {
+      const apiUrl =
+        userType === 'artist'
+          ? `https://shoaibahmad.pythonanywhere.com/api/artist-profiles/${userId}/`
+          : `https://shoaibahmad.pythonanywhere.com/api/buyer-profiles/${userId}/`;
+
+      axios.get(apiUrl, { headers: { Authorization: `Token ${token}` } }).then((res) => {
+        setProfileData(res.data);
+        setProfileImage(res.data.user?.profile_image);
+      });
+
+      if (userType === 'artist') {
+        // load artist artworks
+        fetchArtworks();
+      }
+    }
+  }, [userId, token, userType, fetchArtworks]);
+
+  useEffect(() => {
+    if (activeTab === 'Purchases' && userId) {
+      fetchPurchases();
+    }
+  }, [activeTab, userId, fetchPurchases]);
 
   const triggerFileInput = () => fileInputRef.current.click();
 
@@ -286,6 +300,8 @@ export default function ProfilePage() {
             onUpload={(data) => {
               console.log('Artwork saved:', data);
               setShowUploadModal(false);
+              // refresh artworks list after a successful upload/update
+              fetchArtworks();
             }}
             token={token}
             mode={editingArtwork ? 'edit' : 'create'}

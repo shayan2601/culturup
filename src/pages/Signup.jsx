@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 import Navbar from '../components/Navbar';
@@ -15,7 +16,6 @@ const Signup = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState(null);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -33,34 +33,33 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setMessage(null);
 
     if (!formData.password) {
-      setMessage({ type: 'error', text: 'Password field is required.' });
+      toast.error('Password field is required.');
       setLoading(false);
       return;
     }
 
     if (formData.password.length < 6) {
-      setMessage({ type: 'error', text: 'Password must contain at least 6 characters.' });
+      toast.error('Password must contain at least 6 characters.');
       setLoading(false);
       return;
     }
 
     if (!formData.password_confirm) {
-      setMessage({ type: 'error', text: 'Password confirmation is required.' });
+      toast.error('Password confirmation is required.');
       setLoading(false);
       return;
     }
 
     if (formData.password !== formData.password_confirm) {
-      setMessage({ type: 'error', text: 'Passwords do not match.' });
+      toast.error('Passwords do not match.');
       setLoading(false);
       return;
     }
 
     if (formData.phone_number && formData.phone_number.length > 15) {
-      setMessage({ type: 'error', text: 'Phone number must not exceed 15 characters.' });
+      toast.error('Phone number must not exceed 15 characters.');
       setLoading(false);
       return;
     }
@@ -72,7 +71,7 @@ const Signup = () => {
       );
 
       localStorage.setItem('userData', JSON.stringify(response.data));
-      setMessage({ type: 'success', text: 'Signup successful! Redirecting to login...' });
+      toast.success('Signup successful! Redirecting to login...');
 
       setFormData({
         username: '',
@@ -91,7 +90,7 @@ const Signup = () => {
         error.response?.data?.error ||
         error.response?.data?.detail ||
         'Signup failed. Please check your input.';
-      setMessage({ type: 'error', text: errMsg });
+      toast.error(errMsg);
     } finally {
       setLoading(false);
     }
@@ -189,15 +188,7 @@ const Signup = () => {
               {loading ? 'Signing up...' : 'Signup'}
             </button>
 
-            {message && (
-              <p
-                className={`mt-2 text-center text-sm ${
-                  message.type === 'success' ? 'text-green-600' : 'text-red-500'
-                }`}
-              >
-                {message.text}
-              </p>
-            )}
+            {/* react-toastify toasts are handled globally via ToastContainer in main.jsx */}
           </form>
         </div>
       </div>
