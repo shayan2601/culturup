@@ -83,13 +83,15 @@ const Settings = () => {
     setLoading(true);
     try {
       const payload = { password };
-      // optionally include totp_code or backup_code in payload if user wants
+      // include totp_code if provided by the user (per API contract)
+      if (totpCode) payload.totp_code = totpCode;
       const res = await axiosAuth.post(
         'https://shoaibahmad.pythonanywhere.com/api/auth/2fa/disable/',
         payload
       );
       toast.success(res.data?.detail || '2FA disabled');
       setPassword('');
+      setTotpCode('');
       fetchStatus();
     } catch (err) {
       toast.error(
@@ -187,6 +189,13 @@ const Settings = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className='flex-1 rounded border p-2'
+                  />
+                  <input
+                    type='text'
+                    placeholder='TOTP code (optional)'
+                    value={totpCode}
+                    onChange={(e) => setTotpCode(e.target.value)}
+                    className='w-40 rounded border p-2'
                   />
                   <button className='rounded bg-red-600 px-4 py-2 text-white'>Disable 2FA</button>
                 </form>
