@@ -27,6 +27,7 @@ import Gallery from './pages/Gallery';
 import JobDetails from './pages/JobDetails';
 import JobsScreen from './pages/JobsScreen';
 import Login from './pages/Login';
+import Settings from './pages/Settings';
 import OrderConfirmationPage from './pages/OrderConfirmationPage';
 import ProfilePage from './pages/Profile';
 import PurchasePage from './pages/PurchasePage';
@@ -49,6 +50,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path='/artwork/:artworkId' element={<ArtworkDetailPage />} />
           <Route path='/explore-artists' element={<ExploreArtists />} />
           <Route path='/gallery' element={<Gallery />} />
+          <Route path='/settings' element={<Settings />} />
           {/* <Route path="/chat" element={<ChatList />} /> */}
           <Route path='/chat' element={<ChatScreen />} />
           <Route path='/chat/:conversationId' element={<ChatWindow />} />

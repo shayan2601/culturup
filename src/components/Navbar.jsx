@@ -44,7 +44,12 @@ const Navbar = ({ onProfileClick }) => {
                 { name: 'Explore Artists', href: '/explore-artists' },
                 { name: 'Gallery', href: '/gallery' },
                 { name: 'Equipments', href: '/equipments' },
-                ...(isLoggedIn ? [{ name: 'Jobs', href: '/jobs' }] : []),
+                ...(isLoggedIn
+                  ? [
+                      { name: 'Jobs', href: '/jobs' },
+                      { name: 'Settings', href: '/settings' },
+                    ]
+                  : []),
                 ...(!isLoggedIn
                   ? [
                       { name: 'Login', href: '/login' },
@@ -65,8 +70,6 @@ const Navbar = ({ onProfileClick }) => {
           </div>
 
           <div className='hidden items-center space-x-4 md:flex'>
-            
-
             {isLoggedIn && (
               <button
                 onClick={() => navigate('/cart')}
@@ -117,7 +120,14 @@ const Navbar = ({ onProfileClick }) => {
                       <User className='mr-3 h-4 w-4 text-cyan-600' />
                       Your Profile
                     </a>
-                    
+                    <a
+                      href='/settings'
+                      className='flex items-center px-4 py-2 text-sm text-gray-700 transition-all duration-200 hover:bg-gradient-to-r hover:from-cyan-50 hover:to-blue-50'
+                    >
+                      <Settings className='mr-3 h-4 w-4 text-cyan-600' />
+                      Settings
+                    </a>
+
                     <hr className='my-1 border-gray-100' />
                     <button
                       onClick={handleLogout}
