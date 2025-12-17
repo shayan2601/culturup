@@ -10,6 +10,7 @@ import {
   Trash2,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useCart } from 'src/context/CartContext';
 
@@ -55,6 +56,8 @@ const ArtworkDetailPage = () => {
         `https://shoaibahmad.pythonanywhere.com/api/artworks/${artworkId}/`
       );
       setArtwork(res.data);
+      // set local liked flag if API provides it
+      setIsLiked(Boolean(res.data?.user_has_liked || res.data?.is_liked || res.data?.liked_by_user));
     } catch (err) {
       console.error('Error fetching artwork:', err);
     } finally {
@@ -73,6 +76,34 @@ const ArtworkDetailPage = () => {
       type: 'artwork',
     });
     setTimeout(() => setAddingId(null), 800);
+  };
+
+  const handleLikeDetail = async () => {
+    const token = localStorage.getItem('authToken');
+    if (!token) return toast.info('Please log in to like this artwork');
+
+    if (isLiked) return toast.info('You have already liked this artwork');
+
+    try {
+      const res = await axios.post(
+        `https://shoaibahmad.pythonanywhere.com/api/artworks/${artworkId}/like/`,
+        {},
+        { headers: { Authorization: `Token ${token}` } }
+      );
+
+      const newCount = res.data?.likes_count;
+      setArtwork((prev) => ({ ...prev, likes_count: newCount }));
+      setIsLiked(true);
+      toast.success(res.data?.message || 'Artwork liked successfully');
+    } catch (err) {
+      console.error('Like error', err);
+      const detail = err.response?.data?.detail || err.response?.data?.message || '';
+      if (/already/i.test(detail)) {
+        setIsLiked(true);
+        return toast.info(detail || 'You have already liked this artwork');
+      }
+      toast.error(detail || 'Failed to like artwork');
+    }
   };
 
   const formatPrice = (price) =>
@@ -126,12 +157,12 @@ const ArtworkDetailPage = () => {
                 <div className='flex space-x-4'>
                   <button
                     className='flex items-center text-gray-500 hover:text-red-500'
-                    onClick={() => setIsLiked(!isLiked)}
+                    onClick={handleLikeDetail}
                   >
                     <Heart
                       className={`mr-1 h-5 w-5 ${isLiked ? 'fill-red-500 text-red-500' : ''}`}
                     />
-                    <span>{isLiked ? artwork.likes_count + 1 : artwork.likes_count}</span>
+                    <span>{artwork.likes_count}</span>
                   </button>
                   <div className='flex items-center text-gray-500'>
                     <Eye className='mr-1 h-5 w-5' />

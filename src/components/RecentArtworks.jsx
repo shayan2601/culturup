@@ -2,6 +2,7 @@ import axios from 'axios';
 import { Bookmark, Eye, Filter, Grid, Heart, List, Share2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const RecentArtworks = () => {
   const [viewMode, setViewMode] = useState('grid');
@@ -24,6 +25,47 @@ const RecentArtworks = () => {
       setError('Failed to load artworks');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleLike = async (e, artworkId, idx) => {
+    e.stopPropagation();
+    const token = localStorage.getItem('authToken');
+    if (!token) return toast.info('Please log in to like artworks');
+    // prevent double-like if we already know the user liked this artwork
+    const alreadyLiked = Boolean(
+      artworks?.[idx]?.user_has_liked || artworks?.[idx]?.is_liked || artworks?.[idx]?.liked_by_user
+    );
+    if (alreadyLiked) return toast.info('You have already liked this artwork');
+
+    try {
+      const res = await axios.post(
+        `https://shoaibahmad.pythonanywhere.com/api/artworks/${artworkId}/like/`,
+        {},
+        { headers: { Authorization: `Token ${token}` } }
+      );
+
+      const newCount = res.data?.likes_count;
+      setArtworks((prev) => {
+        const copy = [...prev];
+        if (copy[idx]) copy[idx] = { ...copy[idx], likes_count: newCount, user_has_liked: true };
+        return copy;
+      });
+      toast.success(res.data?.message || 'Artwork liked');
+    } catch (err) {
+      console.error('Like error', err);
+      // if backend responds with already-liked info, respect that
+      const detail = err.response?.data?.detail || err.response?.data?.message || '';
+      if (/already/i.test(detail)) {
+        // mark locally to avoid future attempts
+        setArtworks((prev) => {
+          const copy = [...prev];
+          if (copy[idx]) copy[idx] = { ...copy[idx], user_has_liked: true };
+          return copy;
+        });
+        return toast.info(detail || 'You have already liked this artwork');
+      }
+      toast.error(detail || 'Failed to like artwork');
     }
   };
 
@@ -66,7 +108,7 @@ const RecentArtworks = () => {
 
       {viewMode === 'grid' ? (
         <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'>
-          {artworks.map((artwork) => (
+          {artworks.map((artwork, index) => (
             <div
               key={artwork.id}
               className='cursor-pointer overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-md'
@@ -99,8 +141,13 @@ const RecentArtworks = () => {
                 <div className='mt-3 flex items-center justify-between'>
                   <div className='flex space-x-3 text-sm text-gray-500'>
                     <div className='flex items-center'>
-                      <Heart className='mr-1 h-4 w-4' />
-                      <span>{artwork.likes_count}</span>
+                      <button
+                        onClick={(e) => handleLike(e, artwork.id, index)}
+                        className='flex items-center text-gray-500 hover:text-red-500'
+                      >
+                        <Heart className='mr-1 h-4 w-4' />
+                        <span>{artwork.likes_count}</span>
+                      </button>
                     </div>
                     <div className='flex items-center'>
                       <Eye className='mr-1 h-4 w-4' />
@@ -120,7 +167,7 @@ const RecentArtworks = () => {
         </div>
       ) : (
         <div className='space-y-4'>
-          {artworks.map((artwork) => (
+          {artworks.map((artwork, index) => (
             <div
               key={artwork.id}
               className='flex cursor-pointer flex-col overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-md sm:flex-row'
@@ -147,8 +194,16 @@ const RecentArtworks = () => {
                 <div className='mt-3 flex items-center justify-between'>
                   <div className='flex space-x-3 text-sm text-gray-500'>
                     <div className='flex items-center'>
-                      <Heart className='mr-1 h-4 w-4' />
-                      <span>{artwork.likes_count}</span>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleLike(e, artwork.id, index);
+                        }}
+                        className='flex items-center text-gray-500 hover:text-red-500'
+                      >
+                        <Heart className='mr-1 h-4 w-4' />
+                        <span>{artwork.likes_count}</span>
+                      </button>
                     </div>
                     <div className='flex items-center'>
                       <Eye className='mr-1 h-4 w-4' />
