@@ -4,7 +4,9 @@ import ProfileHeader from '@components/profile/ProfileHeader';
 import ProfileTabs from '@components/profile/ProfileTabs';
 import UploadArtworkModal from '@components/profile/UploadArtworkModal';
 import axios from 'axios';
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function ProfilePage() {
   const [profileData, setProfileData] = useState({});
@@ -14,6 +16,8 @@ export default function ProfilePage() {
   const [artworks, setArtworks] = useState([]);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [selectedImageFile, setSelectedImageFile] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [paginationData, setPaginationData] = useState({ next: null, previous: null, count: 0 });
   const [editingArtwork, setEditingArtwork] = useState(null);
   const [purchasesLoading, setPurchasesLoading] = useState(false);
   const [purchases, setPurchases] = useState(null);
@@ -25,17 +29,26 @@ export default function ProfilePage() {
   const userType = userData?.user_type;
 
   // fetch artworks (memoized so we can call it safely from effects/handlers)
-  const fetchArtworks = useCallback(async () => {
-    if (!userId) return;
-    try {
-      const res = await axios.get(
-        `https://shoaibahmad.pythonanywhere.com/api/artist-profiles/${userId}/artworks/`
-      );
-      setArtworks(res.data?.results || []);
-    } catch (err) {
-      console.error('Failed to load artworks:', err.response?.data || err.message);
-    }
-  }, [userId]);
+  const fetchArtworks = useCallback(
+    async (page = 1) => {
+      if (!userId) return;
+      try {
+        const res = await axios.get(
+          `https://shoaibahmad.pythonanywhere.com/api/artist-profiles/${userId}/artworks/?page=${page}`
+        );
+        setArtworks(res.data?.results || []);
+        setPaginationData({
+          next: res.data?.next,
+          previous: res.data?.previous,
+          count: res.data?.count,
+        });
+        setCurrentPage(page);
+      } catch (err) {
+        console.error('Failed to load artworks:', err.response?.data || err.message);
+      }
+    },
+    [userId]
+  );
 
   // fetch purchases (memoized)
   const fetchPurchases = useCallback(async () => {
@@ -69,7 +82,7 @@ export default function ProfilePage() {
 
       if (userType === 'artist') {
         // load artist artworks
-        fetchArtworks();
+        fetchArtworks(1);
       }
     }
   }, [userId, token, userType, fetchArtworks]);
@@ -161,8 +174,24 @@ export default function ProfilePage() {
     }
   };
 
+  const handleDeleteArtwork = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this artwork?')) return;
+
+    try {
+      await axios.delete(`https://shoaibahmad.pythonanywhere.com/api/artworks/${id}/`, {
+        headers: { Authorization: `Token ${token}` },
+      });
+      toast.success('Artwork deleted successfully');
+      fetchArtworks(currentPage);
+    } catch (err) {
+      console.error('Failed to delete artwork:', err);
+      toast.error('Failed to delete artwork');
+    }
+  };
+
   return (
     <div className='min-h-screen bg-gray-50 pb-20'>
+      <ToastContainer position='top-right' autoClose={3000} />
       <ProfileHeader
         profileData={profileData}
         profileImage={profileImage}
@@ -291,7 +320,37 @@ export default function ProfilePage() {
                 setEditingArtwork(art);
                 setShowUploadModal(true);
               }}
+              onDelete={handleDeleteArtwork}
             />
+
+            {/* Pagination Controls */}
+            <div className='mt-8 flex justify-center space-x-4'>
+              <button
+                disabled={!paginationData.previous}
+                onClick={() => fetchArtworks(currentPage - 1)}
+                className={`rounded-lg px-4 py-2 ${
+                  !paginationData.previous
+                    ? 'cursor-not-allowed bg-gray-300 text-gray-500'
+                    : 'bg-cyan-600 text-white hover:bg-cyan-700'
+                }`}
+              >
+                Previous
+              </button>
+              <span className='flex items-center text-gray-700'>
+                Page {currentPage}
+              </span>
+              <button
+                disabled={!paginationData.next}
+                onClick={() => fetchArtworks(currentPage + 1)}
+                className={`rounded-lg px-4 py-2 ${
+                  !paginationData.next
+                    ? 'cursor-not-allowed bg-gray-300 text-gray-500'
+                    : 'bg-cyan-600 text-white hover:bg-cyan-700'
+                }`}
+              >
+                Next
+              </button>
+            </div>
           </div>
 
           <UploadArtworkModal
@@ -301,7 +360,7 @@ export default function ProfilePage() {
               console.log('Artwork saved:', data);
               setShowUploadModal(false);
               // refresh artworks list after a successful upload/update
-              fetchArtworks();
+              fetchArtworks(currentPage);
             }}
             token={token}
             mode={editingArtwork ? 'edit' : 'create'}

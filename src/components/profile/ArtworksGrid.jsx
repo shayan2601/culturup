@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import { Edit3 } from 'lucide-react';
 
-export default function ArtworksGrid({ artworks, onEdit }) {
+export default function ArtworksGrid({ artworks, onEdit, onDelete }) {
+  console.log('artworks length: ', artworks.length);
   if (!artworks?.length)
     return <div className='py-12 text-center text-gray-500'>🎨 No artworks uploaded yet.</div>;
 
@@ -24,6 +25,12 @@ export default function ArtworksGrid({ artworks, onEdit }) {
             >
               <Edit3 className='h-4 w-4' />
               <span>Edit Artwork</span>
+            </button>
+            <button
+              onClick={() => onDelete(art.id)}
+              className='mt-2 flex w-full items-center justify-center space-x-2 rounded-lg bg-red-600 py-2 text-white hover:bg-red-700'
+            >
+              <span>Delete</span>
             </button>
           </div>
         </motion.div>
