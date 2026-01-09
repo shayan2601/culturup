@@ -14,6 +14,7 @@ import AllArtists from './pages/AllArtists';
 import AllEquipments from './pages/AllEquipments';
 import ArtEquipment from './pages/ArtEquipment';
 import ArtistDetails from './pages/ArtistDetails';
+import PublicArtistDetails from './pages/PublicArtistDetails';
 import CartPage from './pages/CartPage';
 import ChatScreen from './pages/ChatScreen';
 import ChatWindow from './pages/ChatWindow';
@@ -48,6 +49,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Route path='/equipments' element={<ArtEquipment />} />
           <Route path='/profile' element={<ProfilePage />} />
           <Route path='/artwork/:artworkId' element={<ArtworkDetailPage />} />
+          <Route path='/artist/:id' element={<PublicArtistDetails />} />
           <Route path='/explore-artists' element={<ExploreArtists />} />
           <Route path='/gallery' element={<Gallery />} />
           <Route path='/settings' element={<Settings />} />

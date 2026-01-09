@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const FeaturedArtists = () => {
@@ -37,9 +38,10 @@ const FeaturedArtists = () => {
         ) : (
           <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'>
             {artists.map((artist, index) => (
-              <div
+              <Link
                 key={index}
-                className='rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-md'
+                to={`/artist/${artist.user?.id}`}
+                className='block rounded-lg border border-gray-200 bg-white shadow-sm transition-shadow duration-300 hover:shadow-md no-underline text-inherit'
               >
                 <div className='relative'>
                   <img
@@ -84,12 +86,12 @@ const FeaturedArtists = () => {
                       <p className='text-xs text-gray-500'>Hourly Rate</p>
                       <p className='font-semibold'>${artist.hourly_rate}</p>
                     </div>
-                    <button className='rounded-full bg-cyan-600 px-4 py-1 text-sm font-medium text-white transition-colors duration-300 hover:bg-cyan-700'>
+                    <span className='rounded-full bg-cyan-600 px-4 py-1 text-sm font-medium text-white transition-colors duration-300 hover:bg-cyan-700'>
                       Follow
-                    </button>
+                    </span>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}
