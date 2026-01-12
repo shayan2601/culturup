@@ -172,6 +172,12 @@ const ExploreArtists = () => {
                       >
                         Message
                       </button>
+                      <button
+                        onClick={() => navigate(`/artist/${artist.user.id}`)}
+                        className='rounded-md bg-cyan-600 px-3 py-2 text-sm text-white hover:bg-cyan-700'
+                      >
+                        Profile
+                      </button>
                     </div>
                   </div>
                 </div>

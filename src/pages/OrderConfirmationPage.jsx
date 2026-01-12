@@ -199,7 +199,6 @@ const OrderConfirmationPage = () => {
                   </div>
                 </div>
 
-
                 <div className='flex items-start gap-3'>
                   <div className='mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center text-green-600'>
                     <svg className='h-5 w-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
@@ -268,6 +267,13 @@ const OrderConfirmationPage = () => {
             Thank you for supporting{' '}
             <span className='font-semibold text-purple-600'>{artistName}</span>! 🎨
           </p>
+          <Link
+            to='/'
+            className='inline-flex items-center gap-2 rounded-lg bg-cyan-600 px-6 py-3 font-semibold text-white shadow-lg transition hover:bg-cyan-700'
+          >
+            <Home className='h-5 w-5' />
+            Back to Home
+          </Link>
         </div>
       </div>
     </div>
