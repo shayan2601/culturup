@@ -169,21 +169,7 @@ const ArtworkDetailPage = () => {
                     <span>{artwork.views_count}</span>
                   </div>
                 </div>
-                <div className='flex space-x-2'>
-                  <button
-                    onClick={() => setIsBookmarked(!isBookmarked)}
-                    className='rounded-full border border-gray-200 p-2 hover:bg-gray-50'
-                  >
-                    <Bookmark
-                      className={`h-5 w-5 ${
-                        isBookmarked ? 'fill-cyan-600 text-cyan-600' : 'text-gray-500'
-                      }`}
-                    />
-                  </button>
-                  <button className='rounded-full border border-gray-200 p-2 hover:bg-gray-50'>
-                    <Share2 className='h-5 w-5 text-gray-500' />
-                  </button>
-                </div>
+                
               </div>
             </div>
           </div>
