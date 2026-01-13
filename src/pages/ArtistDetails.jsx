@@ -63,7 +63,7 @@ const ArtistDetails = () => {
             <strong>Experience:</strong> {artist.experience_level}
           </p>
           <p>
-            <strong>Hourly Rate:</strong> ${artist.hourly_rate}
+            <strong>Hourly Rate:</strong> Rs. {artist.hourly_rate}
           </p>
         </div>
 

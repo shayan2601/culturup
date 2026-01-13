@@ -46,7 +46,7 @@ const AllArtists = () => {
                 <strong>Experience:</strong> {artist.experience_level}
               </p>
               <p>
-                <strong>Hourly:</strong> ${artist.hourly_rate}
+                <strong>Hourly:</strong> Rs. {artist.hourly_rate}
               </p>
               <div className='mt-4 flex gap-2'>
                 <button

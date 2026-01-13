@@ -58,8 +58,8 @@ const Signup = () => {
       return;
     }
 
-    if (formData.phone_number && formData.phone_number.length > 15) {
-      toast.error('Phone number must not exceed 15 characters.');
+    if (formData.phone_number && formData.phone_number.length > 11) {
+      toast.error('Phone number must not exceed 11 characters.');
       setLoading(false);
       return;
     }
@@ -106,7 +106,7 @@ const Signup = () => {
             <input
               type='text'
               name='username'
-              placeholder='Full Name'
+              placeholder='Username'
               value={formData.username}
               onChange={handleChange}
               required
@@ -140,12 +140,12 @@ const Signup = () => {
               className='w-full rounded border p-3 focus:ring-2 focus:ring-cyan-500 focus:outline-none'
             />
             <input
-              type='text'
+              type='number'
               name='phone_number'
               placeholder='Phone Number'
               value={formData.phone_number}
               onChange={handleChange}
-              maxLength={15}
+              maxLength={11}
               className='w-full rounded border p-3 focus:ring-2 focus:ring-cyan-500 focus:outline-none'
             />
 
