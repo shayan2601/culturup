@@ -162,14 +162,15 @@ export default function UploadArtworkModal({
           'Content-Type': 'multipart/form-data',
         },
       });
-
+      console.log("RES: ",res);
       console.log(`${mode === 'edit' ? 'Updated' : 'Created'} artwork:`, res.data);
       onUpload(res.data);
       toast.success(`${mode === 'edit' ? 'Artwork updated' : 'Artwork uploaded'} successfully.`);
       onClose();
     } catch (err) {
-      console.error('Upload error:', err.response?.data || err.message);
-      const errMsg = err.response?.data?.image[0] || '';
+      console.error('Upload error:', err?.response?.data || err.message || err);
+      const errMsg = err?.response?.data?.error;
+      console.log("err?.error: ", err)
       toast.error(`Failed to ${mode === 'edit' ? 'update' : 'upload'} artwork. ${errMsg}`);
     } finally {
       setLoading(false);
