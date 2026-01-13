@@ -67,6 +67,14 @@ const AdminDashboard = () => {
     );
   }
 
+  // Filter out array/object values for the top cards
+  const statCards = stats
+    ? Object.entries(stats).filter(
+        ([key, value]) =>
+          !Array.isArray(value) && typeof value !== 'object' && key !== 'id'
+      )
+    : [];
+
   return (
     <div className='flex'>
       <AdminSidebar onLogout={handleLogout} />
@@ -76,17 +84,20 @@ const AdminDashboard = () => {
 
         {error && <p className='mb-4 text-red-600'>{error}</p>}
 
-        <div className='mb-10 grid grid-cols-1 gap-6 sm:grid-cols-3'>
-          {stats ? (
-            Object.entries(stats).map(([key, value]) => (
+        {/* Overview Stats Cards */}
+        <div className='mb-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4'>
+          {statCards.length > 0 ? (
+            statCards.map(([key, value]) => (
               <div
                 key={key}
                 className='rounded-2xl bg-white p-6 shadow transition-all hover:shadow-lg'
               >
-                <h3 className='mb-2 text-lg font-semibold text-gray-600 capitalize'>
+                <h3 className='mb-2 text-sm font-semibold text-gray-500 uppercase tracking-wider'>
                   {key.replace(/_/g, ' ')}
                 </h3>
-                <p className='text-2xl font-bold text-cyan-700'>{value}</p>
+                <p className='text-2xl font-bold text-cyan-700'>
+                  {key.includes('revenue') || key.includes('amount') ? `Rs. ${value}` : value}
+                </p>
               </div>
             ))
           ) : (
@@ -94,6 +105,66 @@ const AdminDashboard = () => {
           )}
         </div>
 
+        {/* Recent Registrations Table */}
+        {stats?.recent_registrations && stats.recent_registrations.length > 0 && (
+          <div className='mb-10 rounded-2xl bg-white p-6 shadow'>
+            <h3 className='mb-4 text-xl font-bold text-gray-700'>Recent Registrations</h3>
+            <div className='overflow-x-auto'>
+              <table className='min-w-full divide-y divide-gray-200'>
+                <thead className='bg-gray-50'>
+                  <tr>
+                    <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>ID</th>
+                    <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Username</th>
+                    <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Email</th>
+                    <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Type</th>
+                  </tr>
+                </thead>
+                <tbody className='divide-y divide-gray-200 bg-white'>
+                  {stats.recent_registrations.map((user) => (
+                    <tr key={user.id}>
+                      <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-900'>{user.id}</td>
+                      <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>{user.username}</td>
+                      <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>{user.email}</td>
+                      <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500 capitalize'>{user.user_type}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* Recent Payments Table */}
+        {stats?.recent_payments && stats.recent_payments.length > 0 && (
+          <div className='mb-10 rounded-2xl bg-white p-6 shadow'>
+            <h3 className='mb-4 text-xl font-bold text-gray-700'>Recent Payments</h3>
+            <div className='overflow-x-auto'>
+              <table className='min-w-full divide-y divide-gray-200'>
+                <thead className='bg-gray-50'>
+                  <tr>
+                    <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Transaction ID</th>
+                    <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Payer</th>
+                    <th className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>Details</th>
+                  </tr>
+                </thead>
+                <tbody className='divide-y divide-gray-200 bg-white'>
+                  {stats.recent_payments.map((payment, index) => (
+                    <tr key={payment.transaction_id || index}>
+                      <td className='px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-500'>{payment.transaction_id}</td>
+                      <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>{payment.payer__username}</td>
+                      <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
+                         {/* Fallback to JSON string if structure is unknown, or just show simple text if available */}
+                         <span className="text-xs text-gray-400">View details</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* Charts Section */}
         <div className='grid grid-cols-1 gap-10 lg:grid-cols-2'>
           <div className='rounded-2xl bg-white p-6 shadow'>
             <h3 className='mb-4 text-lg font-semibold text-gray-700'>Monthly User Growth</h3>
