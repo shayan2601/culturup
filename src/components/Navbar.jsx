@@ -52,8 +52,7 @@ const Navbar = ({ onProfileClick }) => {
                   : []),
                 ...(!isLoggedIn
                   ? [
-                      { name: 'Login', href: '/login' },
-                      { name: 'Signup', href: '/signup' },
+                      { name: 'Login', href: '/login' }
                     ]
                   : []),
               ].map((item) => (

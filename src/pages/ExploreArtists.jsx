@@ -76,21 +76,7 @@ const ExploreArtists = () => {
             <option value='false'>Unavailable</option>
           </select>
 
-          <input
-            type='number'
-            placeholder='Min rate'
-            value={filters.min_hourly_rate}
-            onChange={(e) => setFilters({ ...filters, min_hourly_rate: e.target.value })}
-            className='w-28 rounded-md border border-gray-300 px-3 py-2 text-sm'
-          />
-
-          <input
-            type='number'
-            placeholder='Max rate'
-            value={filters.max_hourly_rate}
-            onChange={(e) => setFilters({ ...filters, max_hourly_rate: e.target.value })}
-            className='w-28 rounded-md border border-gray-300 px-3 py-2 text-sm'
-          />
+          
 
           <input
             type='text'
@@ -100,23 +86,7 @@ const ExploreArtists = () => {
             className='flex-1 rounded-md border border-gray-300 px-3 py-2 text-sm'
           />
 
-          <select
-            value={filters.ordering}
-            onChange={(e) => setFilters({ ...filters, ordering: e.target.value })}
-            className='rounded-md border border-gray-300 px-3 py-2 text-sm'
-          >
-            <option value='-rating'>Highest Rated</option>
-            <option value='rating'>Lowest Rated</option>
-            <option value='-hourly_rate'>Highest Rate</option>
-            <option value='hourly_rate'>Lowest Rate</option>
-          </select>
-
-          <button
-            onClick={() => setFilters({ ...filters, page: 1 })}
-            className='rounded-md bg-cyan-600 px-4 py-2 text-sm text-white hover:bg-cyan-700'
-          >
-            Apply Filters
-          </button>
+          
         </div>
 
         {loading ? (

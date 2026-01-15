@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import Navbar from '../components/Navbar';
@@ -174,6 +174,14 @@ const Login = () => {
               </div>
             </form>
           )}
+          {/* {!requires2FA ? ( */}
+            <p className='mt-4 text-center text-sm text-gray-600'>
+              Don't have an account?{' '}
+              <Link to='/signup' className='font-medium text-cyan-600 hover:underline'>
+                Sign up
+              </Link>
+            </p>
+          {/* ) : null} */}
         </div>
       </div>
     </>
