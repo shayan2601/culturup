@@ -1,20 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  CartesianGrid,
-  Cell,
-  Legend,
-  Line,
-  LineChart,
-  Pie,
-  PieChart,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
-
 import AdminSidebar from '../components/AdminSidebar';
 
 const AdminDashboard = () => {
@@ -22,8 +8,6 @@ const AdminDashboard = () => {
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const COLORS = ['#00C49F', '#FF8042', '#0088FE', '#FFBB28', '#FF4444'];
 
   const fetchDashboardStats = async () => {
     try {
@@ -230,61 +214,6 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Charts Section */}
-        <div className='mt-10 grid grid-cols-1 gap-10 lg:grid-cols-2'>
-          <div className='rounded-2xl bg-white p-6 shadow-sm'>
-            <h3 className='mb-4 text-lg font-semibold text-gray-700'>Monthly User Growth</h3>
-            <ResponsiveContainer width='100%' height={300}>
-              <LineChart
-                data={[
-                  { month: 'Jan', users: 120 },
-                  { month: 'Feb', users: 160 },
-                  { month: 'Mar', users: 210 },
-                  { month: 'Apr', users: 260 },
-                  { month: 'May', users: 310 },
-                  { month: 'Jun', users: 400 },
-                ]}
-              >
-                <Line type='monotone' dataKey='users' stroke='#00C49F' strokeWidth={3} />
-                <CartesianGrid stroke='#f0f0f0' strokeDasharray='5 5' />
-                <XAxis dataKey='month' />
-                <YAxis />
-                <Tooltip />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-
-          <div className='rounded-2xl bg-white p-6 shadow-sm'>
-            <h3 className='mb-4 text-lg font-semibold text-gray-700'>
-              Artwork Category Distribution
-            </h3>
-            <ResponsiveContainer width='100%' height={300}>
-              <PieChart>
-                <Pie
-                  data={[
-                    { name: 'Paintings', value: 35 },
-                    { name: 'Sculptures', value: 25 },
-                    { name: 'Photography', value: 20 },
-                    { name: 'Digital Art', value: 15 },
-                    { name: 'Other', value: 5 },
-                  ]}
-                  cx='50%'
-                  cy='50%'
-                  outerRadius={100}
-                  fill='#8884d8'
-                  dataKey='value'
-                  label
-                >
-                  {COLORS.map((color, i) => (
-                    <Cell key={i} fill={color} />
-                  ))}
-                </Pie>
-                <Tooltip />
-                <Legend />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
       </div>
     </div>
   );
