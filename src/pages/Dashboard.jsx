@@ -2,7 +2,6 @@ import FeaturedArtists from '../components/FeaturedArtists';
 import Footer from '../components/Footer';
 import HeroSection from '../components/HeroSection';
 import Navbar from '../components/Navbar';
-import Newsletter from '../components/Newsletter';
 import PopularCategories from '../components/PopularCategories';
 import RecentArtworks from '../components/RecentArtworks';
 import Testimonials from '../components/Testimonials';
@@ -16,7 +15,6 @@ const Dashboard = () => {
       <RecentArtworks />
       <PopularCategories />
       <Testimonials />
-      <Newsletter />
       <Footer />
     </div>
   );

@@ -57,9 +57,16 @@ const Signup = () => {
       setLoading(false);
       return;
     }
+    console.log('formData: ', formData)
+    const phone = formData.phone_number || '';
 
-    if (formData.phone_number && formData.phone_number.length > 11) {
-      toast.error('Phone number must not exceed 11 characters.');
+    // remove all non-numeric characters
+    const digitsOnly = phone.replace(/\D/g, '');
+
+    console.log('digitsOnly:', digitsOnly);
+
+    if (digitsOnly.length < 11 || digitsOnly.length > 11) {
+      toast.error('Phone number must not exceed 11 digits.');
       setLoading(false);
       return;
     }
